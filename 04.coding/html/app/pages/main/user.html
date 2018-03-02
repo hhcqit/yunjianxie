@@ -1,0 +1,68 @@
+<!doctype html>
+<html class="ui-page-user">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>我的</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link href="../../css/font-awesome-4.7.0/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+		<link href="../../css/iconfont.css" rel="stylesheet" />
+		<link href="../../css/style.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<div class="mui-content">
+			<ul class="mui-table-view mui-table-view-chevron">
+				<li class="mui-table-view-cell mui-media">
+					<a class="mui-navigate-right" href="../user/person.html">
+						<img class="mui-media-object mui-pull-left" src="../../images/user.png">
+						<div class="mui-media-body">
+							宗庆元
+							<p class="mui-ellipsis">我的单位：<span>哈哈集团</span></p>
+						</div>
+					</a>
+				</li>
+			</ul>
+			<ul class="mui-table-view setting" style="margin-top:0.625rem;">
+				<li class="mui-table-view-cell">
+					<a title="setting" class="mui-navigate-right" href="../user/settings.html">
+						<span class="mui-icon fa fa-cog fa-fw" style="color:deepskyblue;font-size: 25px;position: relative;top:3px;"></span>
+						<span>设置</span>
+					</a>
+				</li>
+			</ul>
+			<ul class="mui-table-view feedback" style="margin-top:0.625rem;">
+				<li class="mui-table-view-cell">
+					<a title="feedback" class="mui-navigate-right" href="../user/feedback.html">
+						<span class="mui-icon iconfont icon-xiaoxi1" style="color:orange;font-size: 25px;position: relative;top:3px;"></span>
+						<span>意见反馈</span>
+					</a>
+				</li>
+			</ul>
+			
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/common1.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			mui('.mui-table-view-cell').on("tap","a",function(){
+				mui.openWindow({
+					url:this.href,
+					id:this.href,
+					preload: true,
+					show: {
+						aniShow: 'pop-in'
+					},
+					styles: {
+						popGesture: 'hide'
+					},
+					waiting: {
+						autoShow: false
+					}
+				})
+			})
+		</script>
+	</body>
+
+</html>

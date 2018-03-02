@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>科临脉云设备管理平台</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <!--bootstrapvalidator-->
+    <link rel="stylesheet" href="../lib/bootstrapvalidator/css/bootstrapValidator.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/Ionicons/css/ionicons.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="../lib/dataTables/dataTables.bootstrap.min.css">
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/plugins/iCheck/all.css">
+    <!-- Bootstrap time Picker -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/plugins/timepicker/bootstrap-timepicker.min.css">
+    <!--select2-->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/select2/dist/css/select2.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/dist/css/skins/_all-skins.min.css">
+    <!-- Date Picker -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/bootstrap-daterangepicker/daterangepicker.css">
+    <!-- bootstrap wysihtml5 - text editor -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+    <!--评分组件-->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/bootstrap-star-rating-master/css/star-rating.css">
+    <!--webuploader-->
+    <link rel="stylesheet" href="../lib/webuploader/webuploader.css">
+    <!--自定义样式-->
+    <link rel="stylesheet" href="../css/common.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="../js/html5shiv.min.js"></script>
+    <script src="../js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="hold-transition skin-purple sidebar-mini">
+    <div class="wrapper" id="remembers">
+        <!--头部-->
+        <my-header v-bind:my-name="org.name"></my-header>
+
+        <!-- 左边菜单-->
+         <my-aside v-bind:my-name="user.userName" v-bind:my-type="org.type"></my-aside>
+
+        <!--/左边菜单-->
+        <!-- 中间内容 -->
+        <my-content></my-content>
+
+        <!-- /.content-wrapper -->
+        <my-footer></my-footer>
+
+    </div>
+    <!-- ./wrapper -->
+    <script type="text/x-template" id="main-template">
+         <!-- 中间内容 -->
+        <div class="content-wrapper">
+            <!--中间内容-头部-->
+            <section class="content-header">
+                <h1>
+                    我的成员
+                </h1>
+            </section>
+
+            <!--中间内容-主体-->
+            <section class="content">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="box no-search">
+                            <div class="box-body">
+                                <div id="alertArea"></div>
+                                <form class="form-inline  has-success has-feedback tableSearch" style="margin-left: 15px;" id="merchant-list_length-from-one">
+                                    <button type="button" class="btn btn-primary  icon-plus" @click="invite()">邀请更多小伙伴</button>
+                                    <button type="button" class="btn btn-warning  icon-plus" @click="waiting()">添加</button>
+                                    <button type="button" class="btn btn-success  icon-plus" @click="waiting()">修改</button>
+                                    <button type="button" class="btn btn-danger  icon-plus" @click="waiting()">删除</button>
+                                    <button type="button" class="btn btn-info  icon-plus" @click="waiting()">修改密码</button>
+                                </form>
+                                <table id="merchant-list" class="table table-bordered table-striped table-hover display">
+                                    <thead>
+                                        <tr>
+                                            <th>姓名</th>
+                                            <th>手机号</th>
+                                            <th>部门</th>
+                                            <th>加入时间</th>
+                                            <th>用户类型</th>
+                                        </tr>
+                                    </thead>
+
+                                </table>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+                <!--邀请更多小伙伴-->
+                <div class="modal fade bs-example-modal-sm" id="modalInvite" style="display: none;">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <form class="form-horizontal" id="inviteForm">
+                                <div class="modal-body row">
+                                    <!--<div class="box-body">-->
+                                    <div class="col-xs-12" style="text-align: center">
+                                        <div id="qrcode" class="qrcode"></div>
+                                        <p>打开微信，使用“扫一扫”即可分享至朋友圈或者分享给朋友</p>
+                                    </div>
+                                    <!--</div>-->
+                                </div>
+                                <div class="modal-footer" style="text-align: center">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal" style="margin: 0 auto;">关闭</button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <!--添加-->
+                <div class="modal fade" id="modalAdd" style="display: none;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form class="form-horizontal" id="addForm">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                    <h4 class="modal-title">我的成员-添加</h4>
+                                </div>
+                                <div class="modal-body row">
+                                    <!--<div class="box-body">-->
+                                    <div class="col-xs-12">
+                                        <div class="form-group">
+                                            <label class="col-sm-3 col-md-2 control-label">手机号</label>
+
+                                            <div class="col-sm-9">
+                                                <input type="tel" class="form-control" placeholder="请输入手机号" id="mobile" name="mobile">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <div class="form-group">
+                                            <label class="col-sm-3 col-md-2 control-label">验证码</label>
+
+                                            <div class="col-sm-9">
+                                                <div class="row">
+                                                    <div class="col-xs-8" style="padding-right:0">
+                                                        <input type="text" class="form-control" name="code" placeholder="请输入验证码" v-model="form.code">
+                                                    </div>
+                                                    <div class="col-xs-4" style="padding-left: 0">
+                                                        <button id="getCodeBtn" type="button" class="btn btn-info btn-flat" style="min-width:100px;" :disabled="disabled" @click="start">
+                                                            {{text}}
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <div class="form-group">
+                                            <label class="col-sm-3 col-md-2 control-label">密码</label>
+
+                                            <div class="col-sm-9">
+                                                <input type="password" class="form-control" placeholder="请输入密码" name="password">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12"  v-if="isLab">
+                                        <div class="form-group  row">
+                                            <label class="col-sm-3 col-md-2 control-label">科室</label>
+                                            <div class="col-sm-9">
+                                                <select name="departArea" class="select2 js-states form-control" style="width: 100%;" data-placeholder="请选择科室">
+                                                    <option value="生化">生化</option>
+                                                    <option value="免疫">免疫</option>
+                                                    <option value="前处理">前处理</option>
+                                                    <option value="放免">放免</option>
+                                                    <option value="门诊">门诊</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <div class="form-group  row">
+                                            <label class="col-sm-3 col-md-2 control-label">用户类型</label>
+                                            <div class="col-sm-9">
+                                                <select class="select2 js-states form-control" style="width: 100%;" data-placeholder="请选择用户类型" name="style">
+                                                    <option value="1">平台管理员</option>
+                                                    <option value="2">业务员</option>
+                                                    <option value="3">普通用户</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--</div>-->
+                                    <div class="col-xs-12">
+                                        <small id="errors" v-bind:style="error.styleObject">{{error.msg}}</small>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default pull-left" @click="FnEditCancel('#modalAdd')">关闭</button>
+                                    <button type="button" class="btn btn-info"  @click="FnEditSave()">保存</button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <!--修改-->
+                <div class="modal fade" id="modalUpd" style="display: none;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form class="form-horizontal" id="updForm">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                    <h4 class="modal-title">我的成员-修改</h4>
+                                </div>
+                                <div class="modal-body row">
+                                   
+                                    <div class="col-xs-12">
+                                        <div class="form-group">
+                                            <label class="col-sm-3 col-md-2 control-label">邮箱</label>
+                                            <div class="col-sm-9">
+                                                <input type="email" class="form-control" placeholder="请输入邮箱" name="email">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12"  v-if="isLab">
+                                        <div class="form-group  row">
+                                            <label class="col-sm-3 col-md-2 control-label">科室</label>
+                                            <div class="col-sm-9">
+                                                <select name="dept" class="select2 js-states form-control" style="width: 100%;" data-placeholder="请选择科室">
+                                                    <option value="生化">生化</option>
+                                                    <option value="免疫">免疫</option>
+                                                    <option value="前处理">前处理</option>
+                                                    <option value="放免">放免</option>
+                                                    <option value="门诊">门诊</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <div class="form-group  row">
+                                            <label class="col-sm-3 col-md-2 control-label">用户类型</label>
+                                            <div class="col-sm-9">
+                                                <select class="select2 js-states form-control" style="width: 100%;" data-placeholder="请选择用户类型" name="style">
+                                                    <option value="1">平台管理员</option>
+                                                    <option value="2">业务员</option>
+                                                    <option value="3">普通用户</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--</div>-->
+                                    <div class="col-xs-12">
+                                        <small id="errors" v-bind:style="error.styleObject">{{error.msg}}</small>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default pull-left" @click="FnEditCancel('#modalAdd')">关闭</button>
+                                    <button type="button" class="btn btn-info" @click="FnEditSave()">保存</button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <!--修改密码-->
+                <div class="modal fade" id="modalSecret" style="display: none;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form class="form-horizontal" id="secretForm">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                    <h4 class="modal-title">我的成员-修改密码</h4>
+                                </div>
+                                <div class="modal-body row">
+                                    <!--<div class="box-body">-->
+                                    <div class="col-xs-12">
+                                        <div class="form-group">
+                                            <label class="col-sm-3 col-md-2 control-label">密码</label>
+
+                                            <div class="col-sm-9">
+                                                <input type="password" class="form-control" placeholder="请输入6-20位登录密码">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <div class="form-group">
+                                            <label class="col-sm-3 col-md-2 control-label">确认密码</label>
+
+                                            <div class="col-sm-9">
+                                                <input type="password" class="form-control" placeholder="请再次输入密码">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--</div>-->
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default pull-left" @click="FnEditCancel('#modalSecret')">关闭</button>
+                                    <button type="button" class="btn btn-info" @click="FnSecretSave()">保存</button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+            </section>
+        </div>
+        
+    </script>
+    <!-- jQuery 3 -->
+    <script src="../AdminLTE-2.4.2/bower_components/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="../AdminLTE-2.4.2/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!--bootstrapvalidator-->
+    <script src="../lib/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+    <!-- Select2 -->
+    <script src="../AdminLTE-2.4.2/bower_components/select2/dist/js/select2.full.min.js"></script>
+    <!-- DataTables -->
+    <script src="../lib/dataTables/jquery.dataTables.min.js"></script>
+    <script src="../lib/dataTables/dataTables.bootstrap.min.js"></script>
+    <!-- InputMask -->
+    <script src="../AdminLTE-2.4.2/plugins/input-mask/jquery.inputmask.js"></script>
+    <script src="../AdminLTE-2.4.2/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+    <script src="../AdminLTE-2.4.2/plugins/input-mask/jquery.inputmask.extensions.js"></script>
+    <!-- date-range-picker -->
+    <script src="../AdminLTE-2.4.2/bower_components/moment/min/moment.min.js"></script>
+    <script src="../AdminLTE-2.4.2/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <!-- bootstrap datepicker -->
+    <script src="../AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <!-- bootstrap time picker -->
+    <script src="../AdminLTE-2.4.2/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+    <!-- SlimScroll -->
+    <script src="../AdminLTE-2.4.2/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="../AdminLTE-2.4.2/bower_components/fastclick/lib/fastclick.js"></script>
+    <!-- AdminLTE App -->
+    <script src="../AdminLTE-2.4.2/dist/js/adminlte.min.js"></script>
+    <!--bootstrap-star-rating-->
+    <script src="../AdminLTE-2.4.2/bower_components/bootstrap-star-rating-master/js/star-rating.js"></script>
+    <!--sweetalert-->
+    <script src="../js/sweetalert.min.js"></script>
+    <!--webuploader-->
+    <script src="../lib/webuploader/webuploader.js"></script>
+    <!-- moment  -->
+    <script src="../js/moment-with-locales.min.js"></script>
+   <script src="../js/qrcode.min.js"></script>
+    <!--<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>-->
+    <!-- AdminLTE for demo purposes -->
+    <script src="../js/vue.js"></script>
+    <script src="../js/vue-router.js"></script>
+    <script src="../script/common.js"></script>
+    <script src="../script/remembers.js"></script>
+</body>
+
+</html>

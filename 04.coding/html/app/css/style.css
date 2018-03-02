@@ -1,0 +1,212 @@
+.btnBlue {
+  color: #16a7de;
+}
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+}
+.mui-content {
+  height: 100%;
+}
+p {
+  margin: 0;
+  padding: 0;
+}
+.mui-toast-container {
+  /*提示消息样式修改*/
+  bottom: 50%;
+}
+.mui-btn {
+  padding: 10px;
+}
+.mui-content > .mui-table-view:first-child {
+  margin-top: 0;
+}
+.mui-table-view-cell:after {
+  left: 0px;
+}
+header.mui-bar {
+  background: #45b2ea;
+}
+header.mui-bar h1 {
+  color: #fff;
+  font-weight: 600;
+}
+.mui-bar-nav {
+  box-shadow: none;
+  border: none;
+}
+.mui-bar-nav.mui-bar .mui-icon {
+  color: #fff;
+}
+.mui-bar-nav.mui-bar .mui-icon span {
+  font-size: 17px;
+}
+/*
+ * login
+ */
+.ui-page-login .mui-content .areaLogo {
+  text-align: center;
+  padding: 20px;
+}
+.ui-page-login .mui-content .areaLogo .logo {
+  color: #0078cc;
+  font-size: 40px;
+  height: 50px;
+  line-height: 50px;
+  font-weight: bold;
+}
+.ui-page-login .mui-content .areaLogo .des {
+  height: 20px;
+  line-height: 20px;
+  font-weight: 600;
+}
+.ui-page-login .mui-content .mui-input-group .mui-input-row label {
+  text-align: right;
+}
+.ui-page-login #reg {
+  color: #fd8434;
+  border: 1px solid #fd8434;
+  padding: 5px;
+}
+.ui-page-login .mui-input-group label {
+  width: 22%;
+}
+.ui-page-login .mui-input-row label ~ input,
+.ui-page-login .mui-input-row label ~ select,
+.ui-page-login .mui-input-row label ~ textarea {
+  width: 78%;
+}
+.ui-page-login .mui-content-padded {
+  margin-top: 25px;
+}
+.ui-page-login .mui-btn {
+  padding: 10px;
+}
+.ui-page-login .link-area {
+  display: block;
+  margin-top: 25px;
+}
+.ui-page-login .mui-tab-item span.mui-tab-label {
+  font-size: 12px;
+}
+/*
+ * reg
+ */
+.ui-page-reg .mui-input-group:first-child {
+  margin-top: 20px;
+}
+.ui-page-reg .mui-input-group label {
+  width: 30%;
+}
+.ui-page-reg .mui-input-row label ~ input,
+.ui-page-reg .mui-input-row label ~ select,
+.ui-page-reg .mui-input-row label ~ textarea {
+  width: 70%;
+}
+.ui-page-reg .mui-content-padded {
+  margin-top: 25px;
+}
+.ui-page-reg #vCode {
+  width: 40%;
+  float: left;
+}
+.ui-page-reg #codeBtn {
+  width: 30%;
+  float: right;
+  height: 100%;
+  line-height: 1;
+}
+/*
+ * user
+ */
+.feedback .mui-table-view-cell,
+.setting .mui-table-view-cell,
+.touxiang {
+  padding: 18px 15px;
+}
+.feedback .mui-table-view-cell a,
+.setting .mui-table-view-cell a,
+.touxiang a {
+  margin: -18px -15px;
+}
+.ui-page-person .mui-table-view-cell,
+.ui-page-feedback .mui-table-view-cell {
+  font-weight: 600;
+}
+.ui-page-person .mui-content > p,
+.ui-page-feedback .mui-content > p {
+  text-indent: 11px;
+  font-size: 14px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 0 11px;
+  color: #8f8f94;
+}
+.ui-page-person .mui-btn-block,
+.ui-page-feedback .mui-btn-block {
+  border: none;
+  margin-top: 40px;
+  color: #000000;
+  font-weight: 600;
+}
+.ui-page-person .mui-grid-view,
+.ui-page-feedback .mui-grid-view {
+  min-height: 120px;
+}
+.mui-li-right {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1;
+  display: inline-block;
+  padding: 3px 6px;
+  color: #555;
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  right: 35px;
+}
+/*
+ * feedback.html
+ */
+.ui-page-feedback .mui-btn-block {
+  margin-top: 0px;
+}
+.ui-page-feedback .mui-btn-green {
+  color: #fff;
+  border: 1px solid #68a30d;
+  background-color: #68a30d;
+}
+.ui-page-feedback .mui-btn-green:enabled:active,
+.ui-page-feedback .mui-btn-green.mui-active:enabled {
+  color: #fff;
+  border: 1px solid rgba(104, 163, 13, 0.9);
+  background-color: rgba(104, 163, 13, 0.9);
+}
+.ui-page-feedback header.mui-bar {
+  background: #68a30d;
+}
+.ui-page-feedback .mui-checkbox input[type=checkbox]:checked:before,
+.ui-page-feedback .mui-radio input[type=radio]:checked:before {
+  color: #68a30d;
+}
+.ui-page-feedback textarea {
+  margin: 0;
+}
+/*
+ * about.html
+ */
+.ui-page-about .qrcode img {
+  width: 100px;
+  margin: 50px auto 10px;
+}
+.ui-page-about .footer p {
+  text-align: center;
+  color: #aaa;
+  text-indent: 0;
+  line-height: 20px;
+}

@@ -1,0 +1,65 @@
+{
+  "login.html": {
+    "href": "login.html",
+    "resources": [
+      "css/mui.min.css",
+      "css/style.css",
+      "js/mui.min.js",
+      "js/app.js"
+    ],
+    "refer": [
+      "main.html",
+      "reg.html"
+    ],
+    "priority": 0
+  },
+  "reg.html": {
+    "refer": [
+      "changePwd.html"
+    ]
+  },
+  "main.html": {
+    "resources": [
+      "pages/index/news.html",
+      "pages/main/spectaculars.html"
+    ],
+    "refer": [
+      "pages/index/my.html",
+      "pages/index/search.html",
+      "pages/index/news.html",
+      "pages/index/project.html",
+      "pages/index/train.html",
+      "pages/main/user.html",
+      "pages/main/work.html",
+      "pages/main/spectaculars.html"
+    ]
+  },
+  "pages/main/user.html": {
+    "refer": [
+      "pages/user/person.html",
+      "pages/user/settings.html",
+      "pages/user/feedback.html"
+    ]
+  },
+  "pages/user/settings.html": {
+    "refer": [
+      "pages/user/notice.html",
+      "pages/user/about.html"
+    ]
+  },
+  "pages/user/notice.html": {
+    "refer": [
+      "pages/user/settings.html"
+    ]
+  },
+  "pages/user/feedback.html": {
+    "refer": [
+      "pages/user/uploader_ret.html"
+    ]
+  },
+  "pages/user/about.html": {
+    "resources": [
+      "/favicon.ico"
+    ]
+  }
+}

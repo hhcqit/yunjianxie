@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd  
+	http://www.springframework.org/schema/context  
+	http://www.springframework.org/schema/context/spring-context-3.1.xsd  
+	http://www.springframework.org/schema/mvc  
+	http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+	<!-- 导入redis配置 -->
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="order" value="1" />
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+		<property name="location" value="classpath:redis.properties" />
+	</bean>
+	<!-- 自动扫描 -->
+	<context:component-scan base-package="com.clinicalmall.kuaixiu.service.redis"></context:component-scan>
+	<!-- jedis池化配置 -->
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxIdle" value="${redis.maxIdle}" />
+		<property name="maxTotal" value="${redis.maxTotal}" />
+		<property name="maxWaitMillis">
+			<value type="long">${redis.maxWaitMillis}</value>
+		</property>
+		<property name="testOnBorrow" value="${redis.testOnBorrow}" />
+		<property name="testOnReturn" value="${redis.testOnReturn}" />
+		<!-- <property name="testWhileIdle" value="true"/> -->
+	</bean>
+	<bean id="jedisShardInfo" class="redis.clients.jedis.JedisShardInfo">
+		<constructor-arg name="host" value="${redis.host}" />
+		<constructor-arg name="name" value="" />
+		<constructor-arg name="port" value="${redis.port}"
+			type="int" />
+		<constructor-arg name="timeout" value="${redis.timeout}"
+			type="int" />
+		<constructor-arg name="weight" value="1" type="int" />
+		<property name="password" value="${redis.password}" />
+	</bean>
+	<!-- 支持master-slave模式的jedis连接池 -->
+	<bean id="shardedJedisPool" class="redis.clients.jedis.ShardedJedisPool"
+		scope="singleton">
+		<constructor-arg index="0" ref="jedisPoolConfig" />
+		<constructor-arg index="1">
+			<list>
+				<ref bean="jedisShardInfo" />
+			</list>
+		</constructor-arg>
+	</bean>
+	<!-- 或者直接使用工厂方法返回jedis实例 -->
+	<!-- <bean id="jedis" class="redis.clients.jedis.ShardedJedisPool" factory-method="getResource"> 
+		<constructor-arg index="0" ref="jedisPoolConfig" /> <constructor-arg index="1"> 
+		<list> <ref bean="jedisShardInfo" /> </list> </constructor-arg> </bean> -->
+	<!-- spring-data-redis 方式配置 -->
+	<!-- <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"> 
+		<property name="shardInfo" ref="jedisShardInfo" /> <property name="poolConfig" 
+		ref="jedisPoolConfig" /> <property name="usePool" value="true" /> </bean> 
+		<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate"> 
+		<property name="connectionFactory" ref="jedisConnectionFactory" /> </bean> 
+		<bean id="stringRedisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate"> 
+		<property name="connectionFactory" ref="jedisConnectionFactory" /> </bean> -->
+	<bean id="idGenerator" class="com.clinicalmall.kuaixiu.service.redis.IDGenerator"
+		init-method="init">
+	</bean>
+</beans>

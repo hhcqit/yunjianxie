@@ -1,0 +1,671 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clinicalmall.kuaixiu.persistent.dao.TaskMapper">
+  <resultMap id="BaseResultMap" type="com.clinicalmall.kuaixiu.persistent.domain.Task">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="deleteStatus" jdbcType="INTEGER" property="deleteStatus" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="modifyStatus" jdbcType="INTEGER" property="modifyStatus" />
+    <result column="commentStatus" jdbcType="INTEGER" property="commentStatus" />
+    <result column="supplementStatus" jdbcType="INTEGER" property="supplementStatus" />
+    <result column="sendBackStatus" jdbcType="INTEGER" property="sendBackStatus" />
+    <result column="taskNo" jdbcType="VARCHAR" property="taskNo" />
+    <result column="orgId" jdbcType="BIGINT" property="orgId" />
+    <result column="labId" jdbcType="BIGINT" property="labId" />
+    <result column="providerId" jdbcType="BIGINT" property="providerId" />
+    <result column="createUser" jdbcType="BIGINT" property="createUser" />
+    <result column="repairerUser" jdbcType="BIGINT" property="repairerUser" />
+    <result column="examinerUser" jdbcType="BIGINT" property="examinerUser" />
+    <result column="updateUser" jdbcType="BIGINT" property="updateUser" />
+    <result column="equipId" jdbcType="BIGINT" property="equipId" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="repairDescription" jdbcType="VARCHAR" property="repairDescription" />
+    <result column="canceledReason" jdbcType="VARCHAR" property="canceledReason" />
+    <result column="sendBackReason" jdbcType="VARCHAR" property="sendBackReason" />
+    <result column="examineCalibrate" jdbcType="VARCHAR" property="examineCalibrate" />
+    <result column="examineQc" jdbcType="VARCHAR" property="examineQc" />
+    <result column="examineSample" jdbcType="VARCHAR" property="examineSample" />
+    <result column="examineDescription" jdbcType="VARCHAR" property="examineDescription" />
+    <result column="malfunctionDuration" jdbcType="INTEGER" property="malfunctionDuration" />
+    <result column="acceptTime" jdbcType="TIMESTAMP" property="acceptTime" />
+    <result column="repairedTime" jdbcType="TIMESTAMP" property="repairedTime" />
+    <result column="examineTime" jdbcType="TIMESTAMP" property="examineTime" />
+    <result column="finishedTime" jdbcType="TIMESTAMP" property="finishedTime" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="reserved" jdbcType="VARCHAR" property="reserved" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, createTime, deleteStatus, status, modifyStatus, commentStatus, supplementStatus, 
+    sendBackStatus, taskNo, orgId, labId, providerId, createUser, repairerUser, examinerUser, 
+    updateUser, equipId, description, repairDescription, canceledReason, sendBackReason, 
+    examineCalibrate, examineQc, examineSample, examineDescription, malfunctionDuration, 
+    acceptTime, repairedTime, examineTime, finishedTime, updateTime, remark, reserved
+  </sql>
+  <select id="selectByExample" parameterType="com.clinicalmall.kuaixiu.persistent.domain.TaskExample" resultMap="BaseResultMap">
+    <include refid="OracleDialectPrefix" />
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <include refid="OracleDialectSuffix" />
+    <include refid="MysqlDialect" />
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from task
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from task
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.clinicalmall.kuaixiu.persistent.domain.TaskExample">
+    delete from task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.clinicalmall.kuaixiu.persistent.domain.Task">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into task (createTime, deleteStatus, status, 
+      modifyStatus, commentStatus, supplementStatus, 
+      sendBackStatus, taskNo, orgId, 
+      labId, providerId, createUser, 
+      repairerUser, examinerUser, updateUser, 
+      equipId, description, repairDescription, 
+      canceledReason, sendBackReason, examineCalibrate, 
+      examineQc, examineSample, examineDescription, 
+      malfunctionDuration, acceptTime, repairedTime, 
+      examineTime, finishedTime, updateTime, 
+      remark, reserved)
+    values (#{createTime,jdbcType=TIMESTAMP}, #{deleteStatus,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{modifyStatus,jdbcType=INTEGER}, #{commentStatus,jdbcType=INTEGER}, #{supplementStatus,jdbcType=INTEGER}, 
+      #{sendBackStatus,jdbcType=INTEGER}, #{taskNo,jdbcType=VARCHAR}, #{orgId,jdbcType=BIGINT}, 
+      #{labId,jdbcType=BIGINT}, #{providerId,jdbcType=BIGINT}, #{createUser,jdbcType=BIGINT}, 
+      #{repairerUser,jdbcType=BIGINT}, #{examinerUser,jdbcType=BIGINT}, #{updateUser,jdbcType=BIGINT}, 
+      #{equipId,jdbcType=BIGINT}, #{description,jdbcType=VARCHAR}, #{repairDescription,jdbcType=VARCHAR}, 
+      #{canceledReason,jdbcType=VARCHAR}, #{sendBackReason,jdbcType=VARCHAR}, #{examineCalibrate,jdbcType=VARCHAR}, 
+      #{examineQc,jdbcType=VARCHAR}, #{examineSample,jdbcType=VARCHAR}, #{examineDescription,jdbcType=VARCHAR}, 
+      #{malfunctionDuration,jdbcType=INTEGER}, #{acceptTime,jdbcType=TIMESTAMP}, #{repairedTime,jdbcType=TIMESTAMP}, 
+      #{examineTime,jdbcType=TIMESTAMP}, #{finishedTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=VARCHAR}, #{reserved,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.clinicalmall.kuaixiu.persistent.domain.Task">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into task
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="createTime != null">
+        createTime,
+      </if>
+      <if test="deleteStatus != null">
+        deleteStatus,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="modifyStatus != null">
+        modifyStatus,
+      </if>
+      <if test="commentStatus != null">
+        commentStatus,
+      </if>
+      <if test="supplementStatus != null">
+        supplementStatus,
+      </if>
+      <if test="sendBackStatus != null">
+        sendBackStatus,
+      </if>
+      <if test="taskNo != null">
+        taskNo,
+      </if>
+      <if test="orgId != null">
+        orgId,
+      </if>
+      <if test="labId != null">
+        labId,
+      </if>
+      <if test="providerId != null">
+        providerId,
+      </if>
+      <if test="createUser != null">
+        createUser,
+      </if>
+      <if test="repairerUser != null">
+        repairerUser,
+      </if>
+      <if test="examinerUser != null">
+        examinerUser,
+      </if>
+      <if test="updateUser != null">
+        updateUser,
+      </if>
+      <if test="equipId != null">
+        equipId,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="repairDescription != null">
+        repairDescription,
+      </if>
+      <if test="canceledReason != null">
+        canceledReason,
+      </if>
+      <if test="sendBackReason != null">
+        sendBackReason,
+      </if>
+      <if test="examineCalibrate != null">
+        examineCalibrate,
+      </if>
+      <if test="examineQc != null">
+        examineQc,
+      </if>
+      <if test="examineSample != null">
+        examineSample,
+      </if>
+      <if test="examineDescription != null">
+        examineDescription,
+      </if>
+      <if test="malfunctionDuration != null">
+        malfunctionDuration,
+      </if>
+      <if test="acceptTime != null">
+        acceptTime,
+      </if>
+      <if test="repairedTime != null">
+        repairedTime,
+      </if>
+      <if test="examineTime != null">
+        examineTime,
+      </if>
+      <if test="finishedTime != null">
+        finishedTime,
+      </if>
+      <if test="updateTime != null">
+        updateTime,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="reserved != null">
+        reserved,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteStatus != null">
+        #{deleteStatus,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="modifyStatus != null">
+        #{modifyStatus,jdbcType=INTEGER},
+      </if>
+      <if test="commentStatus != null">
+        #{commentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="supplementStatus != null">
+        #{supplementStatus,jdbcType=INTEGER},
+      </if>
+      <if test="sendBackStatus != null">
+        #{sendBackStatus,jdbcType=INTEGER},
+      </if>
+      <if test="taskNo != null">
+        #{taskNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null">
+        #{orgId,jdbcType=BIGINT},
+      </if>
+      <if test="labId != null">
+        #{labId,jdbcType=BIGINT},
+      </if>
+      <if test="providerId != null">
+        #{providerId,jdbcType=BIGINT},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=BIGINT},
+      </if>
+      <if test="repairerUser != null">
+        #{repairerUser,jdbcType=BIGINT},
+      </if>
+      <if test="examinerUser != null">
+        #{examinerUser,jdbcType=BIGINT},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=BIGINT},
+      </if>
+      <if test="equipId != null">
+        #{equipId,jdbcType=BIGINT},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="repairDescription != null">
+        #{repairDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="canceledReason != null">
+        #{canceledReason,jdbcType=VARCHAR},
+      </if>
+      <if test="sendBackReason != null">
+        #{sendBackReason,jdbcType=VARCHAR},
+      </if>
+      <if test="examineCalibrate != null">
+        #{examineCalibrate,jdbcType=VARCHAR},
+      </if>
+      <if test="examineQc != null">
+        #{examineQc,jdbcType=VARCHAR},
+      </if>
+      <if test="examineSample != null">
+        #{examineSample,jdbcType=VARCHAR},
+      </if>
+      <if test="examineDescription != null">
+        #{examineDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="malfunctionDuration != null">
+        #{malfunctionDuration,jdbcType=INTEGER},
+      </if>
+      <if test="acceptTime != null">
+        #{acceptTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="repairedTime != null">
+        #{repairedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="examineTime != null">
+        #{examineTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishedTime != null">
+        #{finishedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="reserved != null">
+        #{reserved,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.clinicalmall.kuaixiu.persistent.domain.TaskExample" resultType="java.lang.Long">
+    select count(*) from task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update task
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null">
+        createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deleteStatus != null">
+        deleteStatus = #{record.deleteStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.modifyStatus != null">
+        modifyStatus = #{record.modifyStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.commentStatus != null">
+        commentStatus = #{record.commentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.supplementStatus != null">
+        supplementStatus = #{record.supplementStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.sendBackStatus != null">
+        sendBackStatus = #{record.sendBackStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.taskNo != null">
+        taskNo = #{record.taskNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgId != null">
+        orgId = #{record.orgId,jdbcType=BIGINT},
+      </if>
+      <if test="record.labId != null">
+        labId = #{record.labId,jdbcType=BIGINT},
+      </if>
+      <if test="record.providerId != null">
+        providerId = #{record.providerId,jdbcType=BIGINT},
+      </if>
+      <if test="record.createUser != null">
+        createUser = #{record.createUser,jdbcType=BIGINT},
+      </if>
+      <if test="record.repairerUser != null">
+        repairerUser = #{record.repairerUser,jdbcType=BIGINT},
+      </if>
+      <if test="record.examinerUser != null">
+        examinerUser = #{record.examinerUser,jdbcType=BIGINT},
+      </if>
+      <if test="record.updateUser != null">
+        updateUser = #{record.updateUser,jdbcType=BIGINT},
+      </if>
+      <if test="record.equipId != null">
+        equipId = #{record.equipId,jdbcType=BIGINT},
+      </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.repairDescription != null">
+        repairDescription = #{record.repairDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="record.canceledReason != null">
+        canceledReason = #{record.canceledReason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sendBackReason != null">
+        sendBackReason = #{record.sendBackReason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.examineCalibrate != null">
+        examineCalibrate = #{record.examineCalibrate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.examineQc != null">
+        examineQc = #{record.examineQc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.examineSample != null">
+        examineSample = #{record.examineSample,jdbcType=VARCHAR},
+      </if>
+      <if test="record.examineDescription != null">
+        examineDescription = #{record.examineDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="record.malfunctionDuration != null">
+        malfunctionDuration = #{record.malfunctionDuration,jdbcType=INTEGER},
+      </if>
+      <if test="record.acceptTime != null">
+        acceptTime = #{record.acceptTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.repairedTime != null">
+        repairedTime = #{record.repairedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.examineTime != null">
+        examineTime = #{record.examineTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.finishedTime != null">
+        finishedTime = #{record.finishedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reserved != null">
+        reserved = #{record.reserved,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update task
+    set id = #{record.id,jdbcType=BIGINT},
+      createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      deleteStatus = #{record.deleteStatus,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      modifyStatus = #{record.modifyStatus,jdbcType=INTEGER},
+      commentStatus = #{record.commentStatus,jdbcType=INTEGER},
+      supplementStatus = #{record.supplementStatus,jdbcType=INTEGER},
+      sendBackStatus = #{record.sendBackStatus,jdbcType=INTEGER},
+      taskNo = #{record.taskNo,jdbcType=VARCHAR},
+      orgId = #{record.orgId,jdbcType=BIGINT},
+      labId = #{record.labId,jdbcType=BIGINT},
+      providerId = #{record.providerId,jdbcType=BIGINT},
+      createUser = #{record.createUser,jdbcType=BIGINT},
+      repairerUser = #{record.repairerUser,jdbcType=BIGINT},
+      examinerUser = #{record.examinerUser,jdbcType=BIGINT},
+      updateUser = #{record.updateUser,jdbcType=BIGINT},
+      equipId = #{record.equipId,jdbcType=BIGINT},
+      description = #{record.description,jdbcType=VARCHAR},
+      repairDescription = #{record.repairDescription,jdbcType=VARCHAR},
+      canceledReason = #{record.canceledReason,jdbcType=VARCHAR},
+      sendBackReason = #{record.sendBackReason,jdbcType=VARCHAR},
+      examineCalibrate = #{record.examineCalibrate,jdbcType=VARCHAR},
+      examineQc = #{record.examineQc,jdbcType=VARCHAR},
+      examineSample = #{record.examineSample,jdbcType=VARCHAR},
+      examineDescription = #{record.examineDescription,jdbcType=VARCHAR},
+      malfunctionDuration = #{record.malfunctionDuration,jdbcType=INTEGER},
+      acceptTime = #{record.acceptTime,jdbcType=TIMESTAMP},
+      repairedTime = #{record.repairedTime,jdbcType=TIMESTAMP},
+      examineTime = #{record.examineTime,jdbcType=TIMESTAMP},
+      finishedTime = #{record.finishedTime,jdbcType=TIMESTAMP},
+      updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      reserved = #{record.reserved,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.clinicalmall.kuaixiu.persistent.domain.Task">
+    update task
+    <set>
+      <if test="createTime != null">
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteStatus != null">
+        deleteStatus = #{deleteStatus,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="modifyStatus != null">
+        modifyStatus = #{modifyStatus,jdbcType=INTEGER},
+      </if>
+      <if test="commentStatus != null">
+        commentStatus = #{commentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="supplementStatus != null">
+        supplementStatus = #{supplementStatus,jdbcType=INTEGER},
+      </if>
+      <if test="sendBackStatus != null">
+        sendBackStatus = #{sendBackStatus,jdbcType=INTEGER},
+      </if>
+      <if test="taskNo != null">
+        taskNo = #{taskNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null">
+        orgId = #{orgId,jdbcType=BIGINT},
+      </if>
+      <if test="labId != null">
+        labId = #{labId,jdbcType=BIGINT},
+      </if>
+      <if test="providerId != null">
+        providerId = #{providerId,jdbcType=BIGINT},
+      </if>
+      <if test="createUser != null">
+        createUser = #{createUser,jdbcType=BIGINT},
+      </if>
+      <if test="repairerUser != null">
+        repairerUser = #{repairerUser,jdbcType=BIGINT},
+      </if>
+      <if test="examinerUser != null">
+        examinerUser = #{examinerUser,jdbcType=BIGINT},
+      </if>
+      <if test="updateUser != null">
+        updateUser = #{updateUser,jdbcType=BIGINT},
+      </if>
+      <if test="equipId != null">
+        equipId = #{equipId,jdbcType=BIGINT},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="repairDescription != null">
+        repairDescription = #{repairDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="canceledReason != null">
+        canceledReason = #{canceledReason,jdbcType=VARCHAR},
+      </if>
+      <if test="sendBackReason != null">
+        sendBackReason = #{sendBackReason,jdbcType=VARCHAR},
+      </if>
+      <if test="examineCalibrate != null">
+        examineCalibrate = #{examineCalibrate,jdbcType=VARCHAR},
+      </if>
+      <if test="examineQc != null">
+        examineQc = #{examineQc,jdbcType=VARCHAR},
+      </if>
+      <if test="examineSample != null">
+        examineSample = #{examineSample,jdbcType=VARCHAR},
+      </if>
+      <if test="examineDescription != null">
+        examineDescription = #{examineDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="malfunctionDuration != null">
+        malfunctionDuration = #{malfunctionDuration,jdbcType=INTEGER},
+      </if>
+      <if test="acceptTime != null">
+        acceptTime = #{acceptTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="repairedTime != null">
+        repairedTime = #{repairedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="examineTime != null">
+        examineTime = #{examineTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishedTime != null">
+        finishedTime = #{finishedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="reserved != null">
+        reserved = #{reserved,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.clinicalmall.kuaixiu.persistent.domain.Task">
+    update task
+    set createTime = #{createTime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deleteStatus,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      modifyStatus = #{modifyStatus,jdbcType=INTEGER},
+      commentStatus = #{commentStatus,jdbcType=INTEGER},
+      supplementStatus = #{supplementStatus,jdbcType=INTEGER},
+      sendBackStatus = #{sendBackStatus,jdbcType=INTEGER},
+      taskNo = #{taskNo,jdbcType=VARCHAR},
+      orgId = #{orgId,jdbcType=BIGINT},
+      labId = #{labId,jdbcType=BIGINT},
+      providerId = #{providerId,jdbcType=BIGINT},
+      createUser = #{createUser,jdbcType=BIGINT},
+      repairerUser = #{repairerUser,jdbcType=BIGINT},
+      examinerUser = #{examinerUser,jdbcType=BIGINT},
+      updateUser = #{updateUser,jdbcType=BIGINT},
+      equipId = #{equipId,jdbcType=BIGINT},
+      description = #{description,jdbcType=VARCHAR},
+      repairDescription = #{repairDescription,jdbcType=VARCHAR},
+      canceledReason = #{canceledReason,jdbcType=VARCHAR},
+      sendBackReason = #{sendBackReason,jdbcType=VARCHAR},
+      examineCalibrate = #{examineCalibrate,jdbcType=VARCHAR},
+      examineQc = #{examineQc,jdbcType=VARCHAR},
+      examineSample = #{examineSample,jdbcType=VARCHAR},
+      examineDescription = #{examineDescription,jdbcType=VARCHAR},
+      malfunctionDuration = #{malfunctionDuration,jdbcType=INTEGER},
+      acceptTime = #{acceptTime,jdbcType=TIMESTAMP},
+      repairedTime = #{repairedTime,jdbcType=TIMESTAMP},
+      examineTime = #{examineTime,jdbcType=TIMESTAMP},
+      finishedTime = #{finishedTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      reserved = #{reserved,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <sql id="OracleDialectPrefix">
+    <if test="page != null and _databaseId == 'oracle'">
+      select * from ( select row_.*, rownum rownum_ from ( 
+    </if>
+  </sql>
+  <sql id="OracleDialectSuffix">
+    <if test="page != null and _databaseId == 'oracle'">
+      <![CDATA[ ) row_ ) where rownum_ > #{page.begin} and rownum_ <= #{page.end} ]]>
+    </if>
+  </sql>
+  <sql id="MysqlDialect">
+    <if test="page != null and _databaseId == 'mysql'">
+      limit #{page.begin} , #{page.length}
+    </if>
+  </sql>
+</mapper>

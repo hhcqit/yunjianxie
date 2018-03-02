@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.clinicalmall.kuaixiu.persistent.dao.CustomizedMapper">
+	<resultMap id="OrgResultMap"
+		type="com.clinicalmall.kuaixiu.persistent.domain.Org">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="deleteStatus" jdbcType="INTEGER" property="deleteStatus" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="owner" jdbcType="BIGINT" property="owner" />
+		<result column="type" jdbcType="INTEGER" property="type" />
+		<result column="contact" jdbcType="VARCHAR" property="contact" />
+		<result column="telephone" jdbcType="VARCHAR" property="telephone" />
+		<result column="email" jdbcType="VARCHAR" property="email" />
+		<result column="postcode" jdbcType="VARCHAR" property="postcode" />
+		<result column="area" jdbcType="VARCHAR" property="area" />
+		<result column="address" jdbcType="VARCHAR" property="address" />
+		<result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="qrcodeImg" jdbcType="VARCHAR" property="qrcodeImg" />
+		<result column="reserved" jdbcType="VARCHAR" property="reserved" />
+		<result column="remark" jdbcType="VARCHAR" property="remark" />
+	</resultMap>
+	<resultMap id="EquipmentResultMap" type="com.clinicalmall.kuaixiu.vo.Equipment">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="orgId" jdbcType="BIGINT" property="orgId" />
+		<result column="labId" jdbcType="BIGINT" property="labId" />
+		<result column="providerId" jdbcType="BIGINT" property="providerId" />
+		<result column="labName" jdbcType="VARCHAR" property="labName" />
+		<result column="providerName" jdbcType="VARCHAR" property="providerName" />
+		<result column="createUser" jdbcType="BIGINT" property="createUser" />
+		<result column="updateUser" jdbcType="BIGINT" property="updateUser" />
+		<result column="code" jdbcType="VARCHAR" property="code" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="checkPermission" jdbcType="INTEGER" property="checkPermission" />
+		<result column="checkPeriod" jdbcType="INTEGER" property="checkPeriod" />
+		<result column="area" jdbcType="VARCHAR" property="area" />
+		<result column="address" jdbcType="VARCHAR" property="address" />
+		<result column="place" jdbcType="VARCHAR" property="place" />
+		<result column="model" jdbcType="VARCHAR" property="model" />
+		<result column="category" jdbcType="VARCHAR" property="category" />
+		<result column="supplier" jdbcType="VARCHAR" property="supplier" />
+		<result column="supplierContact" jdbcType="VARCHAR" property="supplierContact" />
+		<result column="supplierTelephone" jdbcType="VARCHAR" property="supplierTelephone" />
+		<result column="manufacturer" jdbcType="VARCHAR" property="manufacturer" />
+		<result column="manufacturerContact" jdbcType="VARCHAR"
+			property="manufacturerContact" />
+		<result column="manufacturerTelephone" jdbcType="VARCHAR"
+			property="manufacturerTelephone" />
+		<result column="madeArea" jdbcType="VARCHAR" property="madeArea" />
+		<result column="madeTime" jdbcType="DATE" property="madeTime" />
+		<result column="batchNo" jdbcType="VARCHAR" property="batchNo" />
+		<result column="madeNo" jdbcType="VARCHAR" property="madeNo" />
+		<result column="barcode" jdbcType="VARCHAR" property="barcode" />
+		<result column="usedDept" jdbcType="VARCHAR" property="usedDept" />
+		<result column="owner" jdbcType="VARCHAR" property="owner" />
+		<result column="barcodeImg" jdbcType="VARCHAR" property="barcodeImg" />
+		<result column="img" jdbcType="VARCHAR" property="img" />
+		<result column="purchasedTime" jdbcType="DATE" property="purchasedTime" />
+		<result column="usedTime" jdbcType="DATE" property="usedTime" />
+		<result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="remark" jdbcType="VARCHAR" property="remark" />
+	</resultMap>
+
+	<resultMap id="PlanResultMap" type="com.clinicalmall.kuaixiu.vo.Plan">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="type" jdbcType="INTEGER" property="type" />
+		<result column="periodType" jdbcType="INTEGER" property="periodType" />
+		<result column="period" jdbcType="INTEGER" property="period" />
+		<result column="warnDay" jdbcType="INTEGER" property="warnDay" />
+		<result column="executePermission" jdbcType="INTEGER" property="executePermission" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="equipId" jdbcType="BIGINT" property="equipId" />
+		<result column="equipName" jdbcType="VARCHAR" property="equipName" />
+		<result column="orgId" jdbcType="BIGINT" property="orgId" />
+		<result column="createUser" jdbcType="BIGINT" property="createUser" />
+		<result column="updateUser" jdbcType="BIGINT" property="updateUser" />
+		<result column="content" jdbcType="VARCHAR" property="content" />
+		<result column="executeCount" jdbcType="INTEGER" property="executeCount" />
+		<result column="startTime" jdbcType="TIMESTAMP" property="startTime" />
+		<result column="latestExecuteTime" jdbcType="TIMESTAMP"
+			property="latestExecuteTime" />
+		<result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="remark" jdbcType="VARCHAR" property="remark" />
+	</resultMap>
+	<resultMap id="WorkResultMap" type="com.clinicalmall.kuaixiu.vo.Work">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="planId" jdbcType="BIGINT" property="planId" />
+		<result column="periodType" jdbcType="INTEGER" property="periodType" />
+		<result column="period" jdbcType="INTEGER" property="period" />
+		<result column="executePermission" jdbcType="INTEGER" property="executePermission" />
+		<result column="origin" jdbcType="INTEGER" property="origin" />
+		<result column="type" jdbcType="INTEGER" property="type" />
+		<result column="orgId" jdbcType="BIGINT" property="orgId" />
+		<result column="labId" jdbcType="BIGINT" property="labId" />
+		<result column="providerId" jdbcType="BIGINT" property="providerId" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="createUser" jdbcType="BIGINT" property="createUser" />
+		<result column="updateUser" jdbcType="BIGINT" property="updateUser" />
+		<result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="equipId" jdbcType="BIGINT" property="equipId" />
+		<result column="equipName" jdbcType="VARCHAR" property="equipName" />
+		<result column="executeOrgId" jdbcType="BIGINT" property="executeOrgId" />
+		<result column="executeUser" jdbcType="BIGINT" property="executeUser" />
+		<result column="executeUserName" jdbcType="VARCHAR" property="executeUserName" />
+		<result column="certificateNo" jdbcType="VARCHAR" property="certificateNo" />
+		<result column="certificateFileName" jdbcType="VARCHAR"
+			property="certificateFileName" />
+		<result column="certificateFilePath" jdbcType="VARCHAR"
+			property="certificateFilePath" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="content" jdbcType="VARCHAR" property="content" />
+		<result column="result" jdbcType="VARCHAR" property="result" />
+		<result column="acceptTime" jdbcType="TIMESTAMP" property="acceptTime" />
+		<result column="executeTime" jdbcType="TIMESTAMP" property="executeTime" />
+		<result column="finishedTime" jdbcType="TIMESTAMP" property="finishedTime" />
+		<result column="remark" jdbcType="VARCHAR" property="remark" />
+	</resultMap>
+	<resultMap id="TaskResultMap" type="com.clinicalmall.kuaixiu.vo.Task">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="modifyStatus" jdbcType="INTEGER" property="modifyStatus" />
+		<result column="commentStatus" jdbcType="INTEGER" property="commentStatus" />
+		<result column="supplementStatus" jdbcType="INTEGER" property="supplementStatus" />
+		<result column="sendBackStatus" jdbcType="INTEGER" property="sendBackStatus" />
+		<result column="taskNo" jdbcType="VARCHAR" property="taskNo" />
+		<result column="orgId" jdbcType="BIGINT" property="orgId" />
+		<result column="labId" jdbcType="BIGINT" property="labId" />
+		<result column="providerId" jdbcType="BIGINT" property="providerId" />
+		<result column="createUser" jdbcType="BIGINT" property="createUser" />
+		<result column="createUserName" jdbcType="VARCHAR" property="createUserName" />
+		<result column="repairerUser" jdbcType="BIGINT" property="repairerUser" />
+		<result column="examinerUser" jdbcType="BIGINT" property="examinerUser" />
+		<result column="updateUser" jdbcType="BIGINT" property="updateUser" />
+		<result column="equipId" jdbcType="BIGINT" property="equipId" />
+		<result column="equipCode" jdbcType="VARCHAR" property="equipCode" />
+		<result column="equipName" jdbcType="VARCHAR" property="equipName" />
+		<result column="equipUsedDept" jdbcType="VARCHAR" property="equipUsedDept" />
+		<result column="description" jdbcType="VARCHAR" property="description" />
+		<result column="repairDescription" jdbcType="VARCHAR" property="repairDescription" />
+		<result column="canceledReason" jdbcType="VARCHAR" property="canceledReason" />
+		<result column="sendBackReason" jdbcType="VARCHAR" property="sendBackReason" />
+		<result column="examineCalibrate" jdbcType="VARCHAR" property="examineCalibrate" />
+		<result column="examineQc" jdbcType="VARCHAR" property="examineQc" />
+		<result column="examineSample" jdbcType="VARCHAR" property="examineSample" />
+		<result column="examineDescription" jdbcType="VARCHAR"
+			property="examineDescription" />
+		<result column="malfunctionDuration" jdbcType="INTEGER"
+			property="malfunctionDuration" />
+		<result column="acceptTime" jdbcType="TIMESTAMP" property="acceptTime" />
+		<result column="repairedTime" jdbcType="TIMESTAMP" property="repairedTime" />
+		<result column="examineTime" jdbcType="TIMESTAMP" property="examineTime" />
+		<result column="finishedTime" jdbcType="TIMESTAMP" property="finishedTime" />
+		<result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="remark" jdbcType="VARCHAR" property="remark" />
+		<result column="reserved" jdbcType="VARCHAR" property="reserved" />
+	</resultMap>
+	<resultMap id="TaskModifyResultMap" type="com.clinicalmall.kuaixiu.vo.TaskModify">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="taskId" jdbcType="BIGINT" property="taskId" />
+		<result column="createUser" jdbcType="BIGINT" property="createUser" />
+		<result column="createUserName" jdbcType="VARCHAR" property="createUserName" />
+		<result column="equipId" jdbcType="BIGINT" property="equipId" />
+		<result column="description" jdbcType="VARCHAR" property="description" />
+	</resultMap>
+	<resultMap id="TaskCommentResultMap" type="com.clinicalmall.kuaixiu.vo.TaskComment">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="taskId" jdbcType="BIGINT" property="taskId" />
+		<result column="createUser" jdbcType="BIGINT" property="createUser" />
+		<result column="createUserName" jdbcType="VARCHAR" property="createUserName" />
+		<result column="service" jdbcType="INTEGER" property="service" />
+		<result column="technology" jdbcType="INTEGER" property="technology" />
+		<result column="response" jdbcType="INTEGER" property="response" />
+		<result column="description" jdbcType="VARCHAR" property="description" />
+	</resultMap>
+	<resultMap id="TaskSupplementResultMap" type="com.clinicalmall.kuaixiu.vo.TaskSupplement">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="taskId" jdbcType="BIGINT" property="taskId" />
+		<result column="createUser" jdbcType="BIGINT" property="createUser" />
+		<result column="createUserName" jdbcType="VARCHAR" property="createUserName" />
+		<result column="description" jdbcType="VARCHAR" property="description" />
+		<result column="visibleStatus" jdbcType="INTEGER" property="visibleStatus" />
+	</resultMap>
+	<resultMap id="TaskRepairResultMap" type="com.clinicalmall.kuaixiu.vo.TaskRepair">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="taskId" jdbcType="BIGINT" property="taskId" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="createUser" jdbcType="BIGINT" property="createUser" />
+		<result column="createUserName" jdbcType="VARCHAR" property="createUserName" />
+		<result column="description" jdbcType="VARCHAR" property="description" />
+		<result column="reason" jdbcType="VARCHAR" property="reason" />
+		<result column="acceptTime" jdbcType="TIMESTAMP" property="acceptTime" />
+		<result column="finishedTime" jdbcType="TIMESTAMP" property="finishedTime" />
+		<result column="visibleStatus" jdbcType="INTEGER" property="visibleStatus" />
+	</resultMap>
+	<sql id="Org_Column_List">
+		id, createTime, deleteStatus, name, owner, type, contact,
+		telephone,
+		email, postcode,
+		area, address, updateTime, qrcodeImg,
+		reserved, remark
+	</sql>
+	<select id="selectOrgBind" resultMap="OrgResultMap"
+		parameterType="java.util.Map">
+		<include refid="OracleDialectPrefix" />
+		select
+		t0.*
+		from
+		org t0 inner join org_relation t1 on t0.id=
+		<if test="type == 1">t1.providerId </if>
+		<if test="type == 2">t1.labId </if>
+		<where>
+			<if test="id">
+				and
+				<if test="type == 1">t1.labId </if>
+				<if test="type == 2">t1.providerId </if>
+				=#{id,jdbcType=BIGINT}
+			</if>
+			<if test="name">and t0.name like #{name,jdbcType=VARCHAR}</if>
+		</where>
+		<include refid="OracleDialectSuffix" />
+		<include refid="MysqlDialect" />
+	</select>
+
+	<select id="countOrgBind" parameterType="java.util.Map"
+		resultType="java.lang.Long">
+		select count(*) from
+		org t0 inner join org_relation t1 on t0.id=
+		<if test="type == 1">t1.providerId </if>
+		<if test="type == 2">t1.labId </if>
+		<where>
+			<if test="id">
+				and
+				<if test="type == 1">t1.labId </if>
+				<if test="type == 2">t1.providerId </if>
+				=#{id,jdbcType=BIGINT}
+			</if>
+			<if test="name">and t0.name like #{name,jdbcType=VARCHAR}</if>
+		</where>
+	</select>
+	<select id="selectEquipment" resultMap="EquipmentResultMap"
+		parameterType="java.util.Map">
+		<include refid="OracleDialectPrefix" />
+		select
+		*,(
+		SELECT
+		NAME
+		FROM
+		org
+		WHERE
+		id = labId
+		) labName,
+		(
+		SELECT
+		NAME
+		FROM
+		org
+		WHERE
+		id = providerId
+		) providerName
+		from
+		equipment
+		<where>
+			<if test="orgId">and orgId = #{orgId,jdbcType=BIGINT}</if>
+			<if test="labId">and labId = #{labId,jdbcType=BIGINT}</if>
+			<if test="providerId">and providerId = #{providerId,jdbcType=BIGINT}</if>
+			<if test="deleteStatus">and deleteStatus = #{deleteStatus,jdbcType=INTEGER}</if>
+			<if test="code">and code like #{code,jdbcType=VARCHAR}</if>
+			<if test="name">and name like #{name,jdbcType=VARCHAR}</if>
+			<if test="status">and status = #{status,jdbcType=INTEGER}</if>
+			<if test="bind == 0 or bind ==1">
+				and
+				<if test="bind==0">
+					<if test="bindType == 1">labId is null</if>
+					<if test="bindType == 2">providerId is null</if>
+				</if>
+				<if test="bind==1">
+					<if test="bindType == 1">labId is not null</if>
+					<if test="bindType == 2">providerId is not null</if>
+				</if>
+			</if>
+		</where>
+		<include refid="OracleDialectSuffix" />
+		<include refid="MysqlDialect" />
+	</select>
+
+	<select id="countEquipment" parameterType="java.util.Map"
+		resultType="java.lang.Long">
+		select count(*) from equipment
+		<where>
+			<if test="orgId">and orgId = #{orgId,jdbcType=BIGINT}</if>
+			<if test="labId">and labId = #{labId,jdbcType=BIGINT}</if>
+			<if test="providerId">and providerId = #{providerId,jdbcType=BIGINT}</if>
+			<if test="deleteStatus">and deleteStatus = #{deleteStatus,jdbcType=INTEGER}</if>
+			<if test="code">and code like #{code,jdbcType=VARCHAR}</if>
+			<if test="name">and name like #{name,jdbcType=VARCHAR}</if>
+			<if test="status">and status = #{status,jdbcType=INTEGER}</if>
+			<if test="bind == 0 or bind ==1">
+				and
+				<if test="bind==0">
+					<if test="bindType == 1">labId is null</if>
+					<if test="bindType == 2">providerId is null</if>
+				</if>
+				<if test="bind==1">
+					<if test="bindType == 1">labId is not null</if>
+					<if test="bindType == 2">providerId is not null</if>
+				</if>
+			</if>
+		</where>
+	</select>
+
+	<select id="selectPlan" resultMap="PlanResultMap" parameterType="java.util.Map">
+		<include refid="OracleDialectPrefix" />
+		select
+		t0.*,t1.name equipName
+		from
+		plan t0 inner join equipment t1 ON
+		t0.equipId=t1.id
+		<where>
+			<if test="equipId">and t0.equipId = #{equipId,jdbcType=BIGINT}</if>
+			<if test="orgId">
+				and (t0.orgId = #{orgId,jdbcType=BIGINT}
+				<if test="orgType == 1">or t1.labId = #{orgId,jdbcType=BIGINT}</if>
+				<if test="orgType == 2">or t1.providerId = #{orgId,jdbcType=BIGINT}</if>
+				)
+			</if>
+			<if test="type">and t0.type = #{type,jdbcType=INTEGER}</if>
+			<if test="deleteStatus">and t0.deleteStatus = #{deleteStatus,jdbcType=INTEGER}
+			</if>
+			<if test="status">and t0.status = #{status,jdbcType=INTEGER}</if>
+			<if test="name">and t0.name like #{name,jdbcType=VARCHAR}</if>
+		</where>
+		<include refid="OracleDialectSuffix" />
+		<include refid="MysqlDialect" />
+	</select>
+
+	<select id="countPlan" parameterType="java.util.Map" resultType="java.lang.Long">
+		select count(*) from plan t0 inner join equipment t1 ON
+		t0.equipId=t1.id
+		<where>
+			<if test="equipId">and t0.equipId = #{equipId,jdbcType=BIGINT}</if>
+			<if test="orgId">
+				and (t0.orgId = #{orgId,jdbcType=BIGINT}
+				<if test="orgType == 1">or t1.labId = #{orgId,jdbcType=BIGINT}</if>
+				<if test="orgType == 2">or t1.providerId = #{orgId,jdbcType=BIGINT}</if>
+				)
+			</if>
+			<if test="type">and t0.type = #{type,jdbcType=INTEGER}</if>
+			<if test="deleteStatus">and t0.deleteStatus = #{deleteStatus,jdbcType=INTEGER}
+			</if>
+			<if test="status">and t0.status = #{status,jdbcType=INTEGER}</if>
+			<if test="name">and t0.name like #{name,jdbcType=VARCHAR}</if>
+		</where>
+	</select>
+
+	<select id="selectWork" resultMap="WorkResultMap" parameterType="java.util.Map">
+		<include refid="OracleDialectPrefix" />
+		select
+		t0.*,t1.name equipName,t2.realName executeUserName
+		from
+		(work t0
+		inner join equipment t1 ON
+		t0.equipId=t1.id) left join user t2 on
+		t0.executeUser=t2.id
+		<where>
+			<if test="equipId">and t0.equipId = #{equipId,jdbcType=BIGINT}</if>
+			<if test="orgId">
+				and ((t0.orgId = #{orgId,jdbcType=BIGINT} and
+				t0.executePermission!=2) or
+				(t0.orgId != #{orgId,jdbcType=BIGINT} and
+				t0.executePermission!=1
+				<if test="orgType == 1">and t0.labId = #{orgId,jdbcType=BIGINT}</if>
+				<if test="orgType == 2">and t0.providerId = #{orgId,jdbcType=BIGINT}</if>
+				))
+			</if>
+			<if test="type">and t0.type = #{type,jdbcType=INTEGER}</if>
+			<if test="deleteStatus">and t0.deleteStatus = #{deleteStatus,jdbcType=INTEGER}
+			</if>
+			<if test="status">and t0.status = #{status,jdbcType=INTEGER}</if>
+			<if test="name">and t0.name like #{name,jdbcType=VARCHAR}</if>
+		</where>
+		<include refid="OracleDialectSuffix" />
+		<include refid="MysqlDialect" />
+	</select>
+
+	<select id="countWork" parameterType="java.util.Map" resultType="java.lang.Long">
+		select count(*) from work t0
+		<where>
+			<if test="equipId">and t0.equipId = #{equipId,jdbcType=BIGINT}</if>
+			<if test="userId">and (t0.createUser = #{userId,jdbcType=BIGINT} or
+				t0.repairerUser = #{userId,jdbcType=BIGINT} or t0.examinerUser =
+				#{userId,jdbcType=BIGINT})
+			</if>
+			<if test="orgId">
+				and ((t0.orgId = #{orgId,jdbcType=BIGINT} and
+				t0.executePermission!=2) or
+				(t0.orgId != #{orgId,jdbcType=BIGINT} and
+				t0.executePermission!=1
+				<if test="orgType == 1">and t0.labId = #{orgId,jdbcType=BIGINT}</if>
+				<if test="orgType == 2">and t0.providerId = #{orgId,jdbcType=BIGINT}</if>
+				))
+			</if>
+			<if test="type">and t0.type = #{type,jdbcType=INTEGER}</if>
+			<if test="deleteStatus">and t0.deleteStatus = #{deleteStatus,jdbcType=INTEGER}
+			</if>
+			<if test="status">and t0.status = #{status,jdbcType=INTEGER}</if>
+			<if test="name">and t0.name like #{name,jdbcType=VARCHAR}</if>
+		</where>
+	</select>
+	<select id="selectTask" resultMap="TaskResultMap" parameterType="java.util.Map">
+		<include refid="OracleDialectPrefix" />
+		select
+		t0.*,t1.code equipCode,t1.name equipName,t1.usedDept
+		equipUsedDept,t2.realName createUserName
+		from
+		(task t0
+		inner join
+		equipment t1 ON
+		t0.equipId=t1.id) left join user t2 on
+		t0.createUser=t2.id
+		<where>
+			<if test="id">and t0.id = #{id,jdbcType=BIGINT}</if>
+			<if test="taskNo">and t0.taskNo = #{taskNo,jdbcType=VARCHAR}</if>
+			<if test="equipId">and t0.equipId = #{equipId,jdbcType=BIGINT}</if>
+			<if test="userId">and (t0.createUser = #{userId,jdbcType=BIGINT} or
+				t0.repairerUser = #{userId,jdbcType=BIGINT} or t0.examinerUser =
+				#{userId,jdbcType=BIGINT})
+			</if>
+			<if test="orgId">
+				<if test="orgType == 1">and t0.labId = #{orgId,jdbcType=BIGINT}</if>
+				<if test="orgType == 2">and t0.providerId = #{orgId,jdbcType=BIGINT}</if>
+			</if>
+			<if test="deleteStatus">and t0.deleteStatus = #{deleteStatus,jdbcType=INTEGER}
+			</if>
+			<if test="status">
+				<if test="status == 1">and t0.status in (10,20,23,30)</if>
+				<if test="status == 2">and t0.status = 40</if>
+				<if test="status == 3">and t0.status in (11,21)</if>
+				<if test="status == 11">and t0.status = 10</if>
+				<if test="status == 12">and t0.status in (20,30)</if>
+				<if test="status == 13">and t0.status in (40,50)</if>
+			</if>
+		</where>
+		<include refid="OracleDialectSuffix" />
+		<include refid="MysqlDialect" />
+	</select>
+
+	<select id="countTask" parameterType="java.util.Map" resultType="java.lang.Long">
+		select count(*) from task t0
+		<where>
+			<if test="equipId">and t0.equipId = #{equipId,jdbcType=BIGINT}</if>
+			<if test="orgId">
+				<if test="orgType == 1">and t0.labId = #{orgId,jdbcType=BIGINT}</if>
+				<if test="orgType == 2">and t0.providerId = #{orgId,jdbcType=BIGINT}</if>
+			</if>
+			<if test="deleteStatus">and t0.deleteStatus = #{deleteStatus,jdbcType=INTEGER}
+			</if>
+			<if test="status">
+				<if test="status == 1">and t0.status in (10,20,23,30)</if>
+				<if test="status == 2">and t0.status = 40</if>
+				<if test="status == 3">and t0.status in (11,21)</if>
+				<if test="status == 11">and t0.status = 10</if>
+				<if test="status == 12">and t0.status in (20,30)</if>
+				<if test="status == 13">and t0.status in (40,50)</if>
+			</if>
+		</where>
+	</select>
+	<select id="selectTaskModify" resultMap="TaskModifyResultMap"
+		parameterType="java.util.Map">
+		<include refid="OracleDialectPrefix" />
+		select
+		t0.*,t1.realName createUserName
+		from
+		task_modify t0 inner join
+		user t1 ON
+		t0.createUser=t1.id
+		<where>
+			<if test="taskId">and t0.taskId = #{taskId,jdbcType=BIGINT}</if>
+		</where>
+		<include refid="OracleDialectSuffix" />
+		<include refid="MysqlDialect" />
+	</select>
+	<select id="selectTaskComment" resultMap="TaskCommentResultMap"
+		parameterType="java.util.Map">
+		<include refid="OracleDialectPrefix" />
+		select
+		t0.*,t1.realName createUserName
+		from
+		task_comment t0 inner join
+		user t1 ON
+		t0.createUser=t1.id
+		<where>
+			<if test="taskId">and t0.taskId = #{taskId,jdbcType=BIGINT}</if>
+		</where>
+		<include refid="OracleDialectSuffix" />
+		<include refid="MysqlDialect" />
+	</select>
+	<select id="selectTaskSupplement" resultMap="TaskSupplementResultMap"
+		parameterType="java.util.Map">
+		<include refid="OracleDialectPrefix" />
+		select
+		t0.*,t1.realName createUserName
+		from
+		task_supplement t0 inner join
+		user t1 ON
+		t0.createUser=t1.id
+		<where>
+			<if test="taskId">and t0.taskId = #{taskId,jdbcType=BIGINT}</if>
+		</where>
+		<include refid="OracleDialectSuffix" />
+		<include refid="MysqlDialect" />
+	</select>
+	<select id="selectTaskRepair" resultMap="TaskRepairResultMap"
+		parameterType="java.util.Map">
+		<include refid="OracleDialectPrefix" />
+		select
+		t0.*,t1.realName createUserName
+		from
+		task_repair t0 inner join
+		user t1 ON
+		t0.createUser=t1.id
+		<where>
+			<if test="taskId">and t0.taskId = #{taskId,jdbcType=BIGINT}</if>
+		</where>
+		<include refid="OracleDialectSuffix" />
+		<include refid="MysqlDialect" />
+	</select>
+	<sql id="OracleDialectPrefix">
+		<if test="page != null and _databaseId == 'oracle'">
+			select * from ( select row_.*, rownum rownum_ from (
+		</if>
+	</sql>
+	<sql id="OracleDialectSuffix">
+		<if test="page != null and _databaseId == 'oracle'">
+		<![CDATA[ ) row_ ) where rownum_ > #{page.begin} and rownum_ <= #{page.end} ]]>
+		</if>
+	</sql>
+	<sql id="MysqlDialect">
+		<if test="page != null and _databaseId == 'mysql'">
+			limit #{page.begin} , #{page.length}
+		</if>
+	</sql>
+</mapper>

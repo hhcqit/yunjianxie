@@ -1,0 +1,52 @@
+<!doctype html>
+<html class="ui-page-register">
+
+<head>
+	<meta charset="UTF-8">
+	<title>个人信息</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="../css/mui.css" rel="stylesheet" />
+	<link href="../css/font-awesome-4.7.0/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+	<link href="../css/common.css" rel="stylesheet" />
+</head>
+
+<body>
+	<div class="mui-content mui-content-padded" id="register">
+		<div class="title">我要：</div>
+		<div style="background:#fff;padding:20px;margin:0 -15px">
+			<a class="mui-btn mui-btn-block mui-btn-primary" href="registerInfo.html">新建一个内部报修平台</a>
+			<button class="mui-btn mui-btn-block mui-btn-primary">加入一个内部报修平台</button>
+		</div>
+		<div class="mui-text-right">
+			<a id="alert" @click="alert">内部报修平台是啥?</a>
+		</div>
+	</div>
+
+	<script src="../js/axios.min.js"></script>
+	<script src="../js/mui.js"></script>
+	<script src="../js/vue.js"></script>
+	<script src="../js/common1.js"></script>
+	<script type="text/javascript">
+		var token = localStorage.getItem('token');
+		mui.init({});
+		var register = new Vue({
+			el: '#register',
+			data: {
+
+			},
+			computed: {
+
+			},
+			methods: {
+				alert(){
+					mui.alert("要想加入一个内部报修平台，请向改平台建立者或其他已加入人员获取[邀请加入]的链接，获取后，点击此链接里的 < 我要加入 > 按钮即可")
+				}
+			},
+			created: function () {
+
+			}
+		});
+	</script>
+</body>
+
+</html>

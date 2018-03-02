@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" class="ui-page-task">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
+    <title>我要报修</title>
+    <link href="../css/mui.css" rel="stylesheet" />
+    <link href="../css/font-awesome-4.7.0/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="../css/common.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../fonts/iconfont.css" />
+    <script src="../js/jweixin-1.2.0.js"></script>
+    <script src="../js/mui.js"></script>
+    <script src="../js/vue.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/vue-select.js"></script>
+    <script src="../js/common1.js"></script>
+</head>
+
+<body ontouchstart>
+    <header class="mui-bar mui-bar-nav">
+        <h1 class="mui-title">云快修</h1>
+    </header>
+    <div class="mui-content" id="task">
+
+        <h5 class=" mui-content-padded">请输入设备名称:</h5>
+        <div class=" mui-content-padded" style="background:#fff;">
+            <v-select v-model="selected" :options="deviceNameList"></v-select>
+        </div>
+        <ul class=" mui-table-view" v-if="selected">
+            <li class=" mui-table-view-cell">
+                地点： {{selected ?selected.place:""}}
+            </li>
+            <li class=" mui-table-view-cell">
+                编号：{{selected ?selected.code:""}}
+            </li>
+        </ul>
+        <h5 class=" mui-content-padded">描述:</h5>
+        <div class="mui-input-row  mui-content-padded">
+            <textarea id="textarea" rows="5" placeholder="请输入报修内容" v-model="description"></textarea>
+        </div>
+        <h5 class=" mui-content-padded">录音:
+            <a>
+                <span class="mui-icon mui-icon-mic-filled"></span>
+            </a>
+        </h5>
+
+        <h5 class=" mui-content-padded">请选择要上传的图片:
+            <a style="vertical-align:middle;">
+                <span class="mui-icon mui-icon mui-icon-camera"></span>
+            </a>
+        </h5>
+        <div>
+            <ul class=" mui-table-view">
+                <li class="mui-table-view-cell updImgLi">
+                    <img src="../img/bg.png" alt="" class="updImg">
+                </li>
+            </ul>
+        </div>
+        <h5 class=" mui-content-padded mui-pull-right">
+            报修人：{{loginData.user.dept}} {{loginData.user.realName}} ({{loginData.user.userName}})
+        </h5>
+        <div class="mui-content mui-content-padded">
+            <button class="mui-btn mui-btn-block mui-btn-primary" style="padding:6px 12px" @click="task">发送</button>
+        </div>
+    </div>
+    <script>
+        Vue.component('v-select', VueSelect.VueSelect);
+        var vm = new Vue({
+            el: "#task",
+            data: {
+                loginData: {
+                    token: "",
+                    user: {
+                        dept: "",
+                        realName: "",
+                        userName: ""
+                    },
+                    org: {
+
+                    }
+                },
+                deviceNameList: [], //设备列表
+                selected: null, //选中的设备情况
+                description: ""
+            },
+            computed: {
+
+            },
+            methods: {
+                task: function () {
+                    var _self = this;
+                    if (_self.selected == null) {
+                        mui.alert("设备不能为空");
+                    } else if (_self.description == "") {
+                        mui.alert("任务描述不能为空");
+                    } else {
+                        $.ajax({
+                            type: 'post',
+                            dataType: 'json',
+                            contentType: "application/json;charset=utf-8",
+                            xhrFields: {
+                                withCredentials: true
+                            },
+                            url: jQuery.url + '/task/save',
+                            data: JSON.stringify({
+                                "attachmentIds": "",
+                                "description": _self.description,
+                                "equipId": _self.selected.id
+                            }),
+                            headers: {
+                                'token': _self.loginData.token,
+                            },
+                            complete: function (jqxhr, txt_status) {
+                                if (txt_status == "error") {
+                                    console.log(JSON.stringify(jqxhr));
+                                    mui.alert("服务器请求失败");
+                                }
+                            },
+                            success: function (data) {
+                                console.log(data)
+                                if (data.code == 0) {
+                                    mui.alert(data.msg, function () {
+                                        location.href = "taskList.html";
+                                    });
+                                } else {
+                                    mui.alert(data.msg);
+                                }
+
+                            },
+                            err: function (err) {
+                                alert('err')
+                                mui.alert(err);
+                            }
+                        })
+                    }
+                }
+            },
+            beforeCreate: function () {
+
+            },
+            created: function () {
+                //加载登录信息
+                var _self = this;
+                var data = JSON.parse(localStorage.getItem('loginData'));
+                _self.loginData = data;
+                $.ajax({
+                    type: 'post',
+                    dataType: 'json',
+                    contentType: "application/json; charset=utf-8;",
+                    xhrFields: {
+                        //设置跨域请求
+                        withCredentials: true
+                    },
+                    async: false,
+                    url: jQuery.url + '/equipment/getList',
+                    data: JSON.stringify({
+                        "pageNumber": 0,
+                        "pageSize": 10000,
+                        bind: 1 //只查询已绑定服务商的设备的设备
+                    }),
+                    headers: {
+                        'token': _self.loginData.token
+                    },
+                    success: function (data) {
+                        console.log(JSON.stringify(data));
+                        _self.deviceNameList = data.data
+                        var Data = data.data;
+                        if (data.code == 0) {
+                            _self.deviceNameList = $.map(data.data, function (obj) {
+                                return {
+                                    id: obj.id,
+                                    label: obj.name,
+                                    code: obj.code,
+                                    place: obj.place
+                                };
+                            });
+                        }
+                    },
+                    err: function (err) {
+                        swal("", err, "error");
+                    }
+                });
+            },
+            mounted: function () {
+                var _self = this;
+
+            }
+
+        })
+    </script>
+</body>
+
+</html>

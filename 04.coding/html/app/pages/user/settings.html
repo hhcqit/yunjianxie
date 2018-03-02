@@ -1,0 +1,73 @@
+<!doctype html>
+<html class="ui-page-person">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>设置</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link href="../../css/font-awesome-4.7.0/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+		<link href="../../css/iconfont.css" rel="stylesheet" />
+		<link href="../../css/style.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"><span>我的</span></a>
+			<h1 class="mui-title">设置</h1>
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view" style="margin-top:0.625rem;">
+				<li class="mui-table-view-cell">
+					<a title="notice" class="mui-navigate-right" href="notice.html">
+						<span>新消息通知</span>
+					</a>
+				</li>
+			</ul>
+			<ul class="mui-table-view" style="margin-top:0.625rem;">
+				<li class="mui-table-view-cell">
+					开启网络节点加速
+					<div class="mui-switch mui-switch-blue mui-switch-mini mui-active">
+						<div class="mui-switch-handle"></div>
+					</div>
+				</li>
+			</ul>
+			<p>
+				此开关为节点加速,如您经常出现网络异常，请开启试试。
+			</p>
+			<ul class="mui-table-view" style="margin-top:0.625rem;">
+				<li class="mui-table-view-cell">
+					<a title="about" class="mui-navigate-right" href="about.html">
+						<span>关于微检修</span>
+					</a>
+				</li>
+			</ul>
+			<button type="button" class="mui-btn mui-btn-block" style="">退出登录</button>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/common1.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+			
+			mui('.mui-table-view-cell').on("tap", "a", function() {
+				mui.openWindow({
+					url: this.href,
+					id: this.href,
+					preload: true,
+					show: {
+						aniShow: 'pop-in'
+					},
+					styles: {
+						popGesture: 'hide'
+					},
+					waiting: {
+						autoShow: false
+					}
+				})
+			})
+		</script>
+	</body>
+
+</html>

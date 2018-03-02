@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>登录</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+		<style>
+
+		</style>
+
+	</head>
+
+	<body>
+		<div class="mui-content">
+			<div class="areaLogo">
+				<p class="logo">微检修</p>
+				<p class="des">为简单使用而努力</p>
+			</div>
+			<form id='login-form' class="mui-input-group">
+				<div class="mui-input-row">
+					<label>账号</label>
+					<input id='account' type="text" class="mui-input-clear mui-input" placeholder="请输入账号" value="admin">
+				</div>
+				<div class="mui-input-row">
+					<label>密码</label>
+					<input id='password' type="password" class="mui-input-clear mui-input" placeholder="请输入密码" value="123456">
+				</div>
+			</form>
+			<div class="mui-content-padded">
+				<button id='login' class="mui-btn mui-btn-block mui-btn-primary">登录</button>
+				<div class="link-area">
+					<a type="button" id='reg' class="">首次登录 ></a>
+					<a id='forgetPassword' class=" mui-pull-right" href="#">忘记密码</a>
+				</div>
+			</div>
+
+		</div>
+		<nav class="mui-bar mui-bar-tab">
+			<a class="mui-tab-item">
+				<span class="mui-tab-label">尚未在微信公号号"微检修"中注册？</span>
+			</a>
+
+		</nav>
+		<script src="js/mui.min.js"></script>
+		<script src="js/common1.js"></script>
+		<script>
+			(function($, doc) {
+				mui.init({
+					//下拉刷新、上拉加载
+					pullRefresh: {
+						//...
+					},
+					//手势配置
+					gestureConfig: {
+						//...
+					},
+					//侧滑关闭
+					swipeBack: true, //Boolean(默认false)启用右滑关闭功能
+
+					//设置状态栏颜色
+					statusBarBackground: '#45B2EA', //设置状态栏颜色,仅iOS可用
+					preloadLimit: 5 //预加载窗口数量限制(一旦超出,先进先出)默认不限制
+				})
+
+				$.plusReady(function() {
+					plus.screen.lockOrientation("portrait-primary"); //锁定竖屏
+					var mainPage = $.preload({
+						"id": 'main.html',
+						"url": 'main.html'
+					});
+					var main_loaded_flag = false;
+					mainPage.addEventListener("loaded", function() {
+						main_loaded_flag = true;
+					});
+					var toMain = function() {
+						//使用定时器的原因：
+						//可能执行太快，main页面loaded事件尚未触发就执行自定义事件，此时必然会失败
+						var id = setInterval(function() {
+							//							console.log(main_loaded_flag);
+							if(main_loaded_flag) {
+								clearInterval(id);
+								$.fire(mainPage, 'show', null);
+								mainPage.show("pop-in");
+							}
+						}, 500);
+					};
+					var succLogin = function(data) {
+						lookData(data);
+						if(data.Success) {
+							mui.toast('登陆成功', {
+								duration: 'short(1000ms)',
+								type: 'div'
+							})
+							toMain();
+						}
+					}
+					//检查 "登录状态/锁屏状态" 结束
+					var loginButton = doc.getElementById('login');
+					var accountBox = doc.getElementById('account');
+					var passwordBox = doc.getElementById('password');
+					var regButton = doc.getElementById('reg');
+					var forgetButton = doc.getElementById('forgetPassword');
+					loginButton.addEventListener('tap', function(event) {
+						var loginInfo = {
+							action: "Login",
+							userId: accountBox.value,
+							passWord: passwordBox.value
+						};
+						//						登录验证
+						postAjax("/user/login", loginInfo, succLogin);
+						//						TODO 1.登录跳转
+						mui.toast('登录失败', {
+							duration: 'short(1000ms)',
+							type: 'div'
+						})
+						toMain();
+
+					});
+
+					regButton.addEventListener('tap', function(event) {
+						$.openWindow({
+							url: 'reg.html',
+							id: 'reg.html',
+							preload: true,
+							show: {
+								aniShow: 'pop-in'
+							},
+							styles: {
+								popGesture: 'hide'
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					}, false);
+					forgetButton.addEventListener('tap', function(event) {
+						$.openWindow({
+							url: 'reg.html',
+							id: 'reg.html',
+							preload: true,
+							show: {
+								aniShow: 'pop-in'
+							},
+							styles: {
+								popGesture: 'hide'
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					}, false);
+
+					var backButtonPress = 0;
+					$.back = function(event) {
+						backButtonPress++;
+						if(backButtonPress > 1) {
+							plus.runtime.quit();
+						} else {
+							plus.nativeUI.toast('再按一次退出应用');
+						}
+						setTimeout(function() {
+							backButtonPress = 0;
+						}, 1000);
+						return false;
+					};
+				});
+			}(mui, document));
+		</script>
+	</body>
+
+</html>

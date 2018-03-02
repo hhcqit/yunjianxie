@@ -1,0 +1,190 @@
+<!doctype html>
+<html class="ui-page-taskDetail">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
+	<title>我要报修</title>
+	<link href="../css/mui.css" rel="stylesheet" />
+	<link href="../css/font-awesome-4.7.0/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+	<link href="../css/common.css" rel="stylesheet" />
+	<link rel="stylesheet" href="../fonts/iconfont.css" />
+	<script src="../js/jweixin-1.2.0.js"></script>
+	<script src="../js/moment-with-locales.min.js"></script>
+	<script src="../js/mui.js"></script>
+	<script src="../js/vue.js"></script>
+	<script src="../js/jquery.js"></script>
+	<!-- <script src="../js/vue-select.js"></script> -->
+	<script src="../js/common1.js"></script>
+	<style>
+	</style>   
+</head>
+
+<body ontouchstart>
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		<h1 class="mui-title">撤销报修</h1>
+	</header>
+	<div class="mui-content" id="Revocation">
+		<h5 class=" mui-content-padded">
+			请选择撤销原因
+		</h5>
+		<ul class="mui-table-view mui-table-view-radio" F>
+
+			<li class="mui-table-view-cell mui-selected" value="1">
+				<a class="mui-navigate-right">
+					重复报
+				</a>
+			</li>
+			<li class="mui-table-view-cell" value="2">
+				<a class="mui-navigate-right">
+					误报
+				</a>
+			</li>
+			<li class="mui-table-view-cell" value="3">
+				<a class="mui-navigate-right">
+					其他
+				</a>
+			</li>
+		</ul>
+		<h5 class=" mui-content-padded">
+			备注
+		</h5>
+		<textarea name="" id="" cols="30" rows="3" placeholder="请输入拒绝原因"></textarea>
+		<div class="mui-content-padded">
+			<button type="button" class="mui-btn mui-btn-block mui-btn-primary mui-btn-small">
+				确定撤销
+			</button>
+		</div>
+
+	</div>
+	<script>
+		// $(function () {
+			mui.init({});
+			Vue.filter('moment', function (value, formatString) {
+				formatString = formatString || 'YYYY-MM-DD HH:mm:ss';
+				return moment(value).format(formatString); // value可以是普通日期 20170723
+				// return moment.unix(value).format(formatString); // 这是时间戳转时间
+			});
+			Vue.filter('status', function (value) {
+				switch (value) {
+					case 10:
+						return "待受理"
+						break;
+					case 11:
+						return "报修人撤销"
+						break;
+					case 12:
+						return "维修人删除"
+						break;
+					case 20:
+						return "待维修"
+						break;
+					case 21:
+						return "报修人撤销"
+						break;
+					case 22:
+						return "维修人删除"
+						break;
+					case 23:
+						return "被拒绝"
+						break;
+					case 30:
+						return "待确认"
+						break;
+					case 40:
+						return "已完成"
+						break;
+					case 50:
+						return "已关闭"
+						break;
+					default:
+						break;
+				}
+			});
+			var vm = new Vue({
+				el: "#Revocation",
+				data: {
+					loginData: {
+						token: "",
+						user: {
+							dept: "",
+							realName: "",
+							userName: ""
+						},
+						org: {
+
+						}
+					},
+					task: [],
+					action: '重复报'
+				},
+				computed: {
+
+				},
+				methods: {
+					cancel: function () {
+						var _self = this;
+						$.ajax({
+							type: 'post',
+							dataType: 'json',
+							contentType: "application/json; charset=utf-8;",
+							xhrFields: {
+								//设置跨域请求
+								withCredentials: true
+							},
+							async: false,
+							url: jQuery.url + '/task/cancel',
+							data: JSON.stringify({
+								id: sessionStorage.getItem('taskid')
+							}),
+							headers: {
+								'token': _self.loginData.token,
+							},
+							success: function (data) {
+								lookData(data);
+								if (data.code == 0) {
+									mui.alert(data.msg)
+								} else {
+									mui.alert(data.msg)
+								}
+							},
+							err: function (err) {
+								mui.alert(err)
+							}
+						});
+					}
+				},
+				beforeCreate: function () {
+
+				},
+				created: function () {
+					//加载登录信息
+					var _self = this;
+					var data = JSON.parse(localStorage.getItem('loginData'));
+					_self.loginData = data;
+				},
+				mounted: function () {
+					var _self = this;
+
+				}
+
+			})
+			var list = document.querySelector('.mui-table-view.mui-table-view-radio');
+			if (list != null) {
+				list.addEventListener('selected', function (e) {
+					console.log(e);
+					if (e.detail.el.value == "1") {
+						vm.action = "重复报";
+					} else if (e.detail.el.value == "2") {
+						vm.action = "误报";
+					}else if(e.detail.el.value == "3") {
+						vm.action = "其他";
+					}
+				});
+			}
+		// })
+	</script>
+</body>
+
+</html>

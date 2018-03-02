@@ -1,0 +1,271 @@
+<!doctype html>
+<html class="ui-page-person">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
+	<title>我要报修</title>
+	<link href="../css/mui.css" rel="stylesheet" />
+	<link href="../css/font-awesome-4.7.0/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+	<link href="../css/common.css" rel="stylesheet" />
+	<link rel="stylesheet" href="../fonts/iconfont.css" />
+	<script src="../js/jweixin-1.2.0.js"></script>
+	<script src="../js/moment-with-locales.min.js"></script>
+	<script src="../js/mui.js"></script>
+	<script src="../js/vue.js"></script>
+	<script src="../js/jquery.js"></script>
+	<script src="../js/vue-select.js"></script>
+	<script src="../js/common1.js"></script>
+	<style>
+		.mui-control-content {
+			height: 300px;
+		}
+
+		.mui-table-view:before {
+			top: 0px;
+		}
+	</style>
+</head>
+
+<body ontouchstart>
+	<div class="mui-content" id="taskList">
+		<div>
+			<div id="segmentedControl" class="mui-segmented-control">
+				<a class="mui-control-item mui-active" href="#item1">
+					未完成({{taskList1.length}})
+				</a>
+				<a class="mui-control-item" href="#item2">
+					已完成({{taskList2.length}})
+				</a>
+				<a class="mui-control-item" href="#item3">
+					已撤销({{taskList3.length}})
+				</a>
+			</div>
+			<div style="padding:0 15px;background:#FFF;line-height:40px;overflow:hidden;">
+				<a class="mui-pull-right">
+					<i class="iconfont icon-daoxu">倒序</i>
+				</a>
+			</div>
+		</div>
+		<div style="height:100%;">
+			<div id="item1" class="mui-control-content mui-active" :style="{height:activeHeight}">
+				<div id="scroll" class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed">
+							<li class="mui-table-view-cell" v-for="task in taskList1">
+								<a @click="turn(task.id)">
+									<h5 class="mui-ellipsis-3">
+										{{task.taskNo}}:{{task.description}}
+									</h5>
+									<div class="mui-table">
+										<div class="mui-table-cell mui-col-xs-10">
+											<h5>
+												<span v-if>维修人：{{task.repairerUser}}</span>
+												<span>{{task.createTime |moment}}</span>
+											</h5>
+											<!-- <p class="mui-h6 mui-ellipsis">
+														已持续{{(task.repairedTime-task.createTime}}时间
+													</p> -->
+										</div>
+										<div class="mui-table-cell mui-col-xs-2 mui-text-right">
+											<span :class="'mui-h5 status'+task.status">{{task.status |status}}</span>
+										</div>
+									</div>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div id="item2" class="mui-control-content" :style="{height:activeHeight}">
+				<div id="scroll2" class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed">
+							<li class="mui-table-view-cell" v-for="task in taskList2">
+								<a @click="turn(task.id)">
+									<h5 class="mui-ellipsis-3">
+										{{task.taskNo}}:{{task.description}}
+									</h5>
+									<div class="mui-table">
+										<div class="mui-table-cell mui-col-xs-10">
+											<h5>
+												<span v-if>维修人：{{task.repairerUser}}</span>
+												<span>{{task.createTime |moment}}</span>
+											</h5>
+											<!-- <p class="mui-h6 mui-ellipsis">
+													已持续{{(task.repairedTime-task.createTime}}时间
+												</p> -->
+										</div>
+										<div class="mui-table-cell mui-col-xs-2 mui-text-right">
+											<span :class="{ 'status20': task.commentStatus==0, 'mui-h5': true }">{{task.commentStatus==0 ?"评价":"已评价" }}</span>
+										</div>
+									</div>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div id="item3" class="mui-control-content" :style="{height:activeHeight}">
+				<div id="scroll3" class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed">
+							<li class="mui-table-view-cell" v-for="task in taskList3">
+								<a @click="turn(task.id)">
+									<h5 class="mui-ellipsis-3">
+										{{task.taskNo}}:{{task.description}}
+									</h5>
+									<div class="mui-table">
+										<div class="mui-table-cell mui-col-xs-10">
+											<h5>
+												<span>{{task.canceledReason}}</span>
+												<span>{{task.createTime |moment}}</span>
+											</h5>
+											<!-- <p class="mui-h6 mui-ellipsis">
+													已持续{{(task.repairedTime-task.createTime}}时间
+												</p> -->
+										</div>
+
+									</div>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		mui.init({});
+		Vue.filter('moment', function (value, formatString) {
+			formatString = formatString || 'YYYY-MM-DD HH:mm:ss';
+			return moment(value).format(formatString); // value可以是普通日期 20170723
+			// return moment.unix(value).format(formatString); // 这是时间戳转时间
+		});
+		Vue.filter('status', function (value) {
+			switch (value) {
+				case 10:
+					return "待受理"
+					break;
+				case 11:
+					return "报修人撤销"
+					break;
+				case 12:
+					return "维修人删除"
+					break;
+				case 20:
+					return "待维修"
+					break;
+				case 21:
+					return "报修人撤销"
+					break;
+				case 22:
+					return "维修人删除"
+					break;
+				case 23:
+					return "被拒绝"
+					break;
+				case 30:
+					return "待确认"
+					break;
+				case 40:
+					return "已完成"
+					break;
+				case 50:
+					return "已关闭"
+					break;
+				default:
+					break;
+			}
+		});
+		var vm = new Vue({
+			el: "#taskList",
+			data: {
+				loginData: {
+					token: "",
+					user: {
+						dept: "",
+						realName: "",
+						userName: ""
+					},
+					org: {
+
+					}
+				},
+				deviceNameList: [], //设备列表
+				selected: null, //选中的设备情况
+				description: "",
+				activeHeight: "",
+				taskList1: [], //未完成
+				taskList2: [], //已完成
+				taskList3: [], //已撤销
+			},
+			computed: {
+
+			},
+			methods: {
+				task: function (val) {
+					var _self = this;
+					$.ajax({
+						type: 'post',
+						dataType: 'json',
+						contentType: "application/json; charset=utf-8;",
+						xhrFields: {
+							//设置跨域请求
+							withCredentials: true
+						},
+						async: false,
+						url: jQuery.url + '/task/getList',
+						data: JSON.stringify({
+							"own": 0, //0所有的，1自己的
+							"pageNumber": 0,
+							"pageSize": 100000,
+							"status": val //报修人1：未完成 2：已完成 3：已撤销//维修人 11新报修 12：待维修 13：已修好
+						}),
+						headers: {
+							'token': _self.loginData.token,
+						},
+						success: function (data) {
+							lookData(data);
+							if (data.code == 0) {
+								_self['taskList' + val] = data.data;
+							}
+						},
+						err: function (err) {
+							mui.alert(err)
+						}
+					});
+				},
+				turn: function (value) {
+					var _self = this;
+					console.log(value)
+					sessionStorage.setItem('taskid', value);//任务主键
+					location.href ='taskDetail.html'
+				}
+			},
+			beforeCreate: function () {
+
+			},
+			created: function () {
+				//加载登录信息
+				var _self = this;
+				var data = JSON.parse(localStorage.getItem('loginData'));
+				_self.loginData = data;
+				_self.task(1);
+				_self.task(2);
+				_self.task(3);
+			},
+			mounted: function () {
+				var _self = this;
+				_self.activeHeight = document.documentElement.clientHeight - 50 - 40 + 'px';
+				mui('.mui-scroll-wrapper').scroll({
+					indicators: true //是否显示滚动条
+				});
+
+			}
+
+		})
+	</script>
+</body>
+
+</html>

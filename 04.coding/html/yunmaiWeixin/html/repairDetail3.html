@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalabel=0,viewport-fit=cover">
+    <title>撤销明细</title>
+    <link rel="stylesheet" href="../css/weui.css"/>
+    <link rel="stylesheet" href="../css/style.css"/>
+    <link rel="stylesheet" href="../fonts/iconfont.css"/>
+</head>
+<body ontouchstart >
+<div class="page" id="repairDetail3">
+    <div class="page__bd">
+        <header class="weui">
+            <h1 class="weui-title">威泰迅研发</h1>
+        </header>
+        <div class="weui-cells">
+            <ul>
+                <li style="text-align: right;">
+                    报修单号：174031
+                    <a href="#"><i class="iconfont icon-iconfontbianji"></i></a>
+                </li>
+                <li class="weui-cell">
+                    <label>报修人：</label>
+                    <span>test1</span>
+                </li>
+                <li class="weui-cell">
+                    <label>报修时间：</label>
+                    <span>今天11:10</span>
+                </li>
+                <li class="weui-cell">
+                    <label>报修设备：</label>
+                    <span>生化设备1</span>
+                </li>
+                <li class="weui-cell">
+                    <label>编&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：</label>
+                    <span>sdf54643</span>
+                </li>
+                <li class="weui-cell">
+                    <label class="weui-cell__hd">描&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;述：</label>
+                    <span class="weui-cell__bd"> Dolore eum quia quos tempora tenetur velit.</span>
+                </li>
+            </ul>
+        </div>
+        <div class="weui-cells">
+            <ul>
+                <li class="weui-cell">
+                    <label>撤销原因：</label>
+                    <span>xxx</span>
+                </li>
+                <li class="weui-cell">
+                    <label>撤销人：</label>
+                    <span>xxx</span>
+                </li>
+                <li class="weui-cell">
+                    <label>撤销时间：</label>
+                    <span>2017-12-12 16:26</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script src="../js/zepto.min.js"></script>
+<script src="../js/vue.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="https://res.wx.qq.com/open/libs/weuijs/1.0.0/weui.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+        var $iosActionsheet = $('#iosActionsheet');
+        var $iosMask = $('#iosMask');
+
+        function hideActionSheet() {
+            $iosActionsheet.removeClass('weui-actionsheet_toggle');
+            $iosMask.fadeOut(200);
+        }
+
+        $iosMask.on('click', hideActionSheet);
+        $('#iosActionsheetCancel').on('click', hideActionSheet);
+        $(".showIOSActionSheet").on("click", function(){
+            $iosActionsheet.addClass('weui-actionsheet_toggle');
+            $iosMask.fadeIn(200);
+        });
+    });
+</script>
+</body>
+</html>

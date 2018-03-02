@@ -1,0 +1,197 @@
+<!doctype html>
+<html class="ui-page-feedback">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>意见反馈</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link href="../../css/font-awesome-4.7.0/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+		<link href="../../css/iconfont.css" rel="stylesheet" />
+		<link href="../../css/style.css" rel="stylesheet" />
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript">
+var server="http://demo.dcloud.net.cn/helloh5/uploader/upload.php";
+var files=[];
+// 上传文件
+function upload(){
+	if(files.length<=0){
+		plus.nativeUI.alert("没有添加上传文件！");
+		return;
+	}
+	mui.toast("开始上传：")
+	var wt=plus.nativeUI.showWaiting();
+	var task=plus.uploader.createUpload(server,
+		{method:"POST"},
+		function(t,status){ //上传完成
+			if(status==200){
+				mui.toast("上传成功："+t.responseText);
+				plus.storage.setItem("uploader",t.responseText);
+				wt.close();
+//				var w=plus.webview.create("uploader_ret.html","uploader_ret.html",{scrollIndicator:'none',scalable:false});
+//				w.addEventListener("loaded",function(){
+//					wt.close();
+//					w.show("slide-in-right",300);
+//				},false);
+			}else{
+				mui.toast("上传失败："+status);
+				wt.close();
+			}
+		}
+	);
+	task.addData("client","HelloH5+");
+	task.addData("uid",getUid());
+	for(var i=0;i<files.length;i++){
+		var f=files[i];
+		task.addFile(f.path,{key:f.name});
+	}
+	task.start();
+}
+// 拍照添加文件
+function appendByCamera(){
+	plus.camera.getCamera().captureImage(function(e){
+		plus.io.resolveLocalFileSystemURL(e, function(entry) {
+                var path = entry.toLocalURL();
+                mui.alert(path);
+                appendFile(path);
+                //就是这里
+            }, function(e) {
+                mui.toast("读取拍照文件错误：" + e.message);
+        });
+    })
+}
+// 从相册添加文件
+function appendByGallery(){
+	plus.gallery.pick(function(p){
+        appendFile(p);
+    });
+}
+// 添加文件
+var index=1;
+function appendFile(p){
+	var fe=document.getElementById("files");
+	var li=document.createElement("li");
+	var n=p.substr(p.lastIndexOf('/')+1);
+//	li.innerText=n;
+	li.innerHTML ='<a href="#"><img class="mui-media-object" src="'+p+'"></a>';
+	li.classList ="mui-table-view-cell mui-media mui-col-xs-3";
+	fe.appendChild(li);
+	files.push({name:"uploadkey"+index,path:p});
+	lookData(files);
+	index++;
+	empty.style.display="none";
+}
+// 产生一个随机数
+function getUid(){
+	return Math.floor(Math.random()*100000000+10000000).toString();
+}
+	</script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"><span>设置</span></a>
+			<h1 class="mui-title">意见反馈</h1>
+		</header>
+		<div class="mui-content" id="dcontent">
+			<div class="mui-text-center" style="background-color: rgb(104, 163, 13);overflow:hidden">
+				<img src="../../images/xiaoshumiao.png" style="margin-top:30px;">
+				<p style="color: #fff;padding-top:20px;padding-bottom: 30px;">您的意见反馈是"微检修"成长都滋养！</p>
+			</div>
+			<p>
+				如果开启您的微信公众号将收不到消息。
+			</p>
+			<form class="mui-input-group">
+				<div class="mui-input-row mui-radio">
+					<label>功能异常</label>
+					<input name="radio1" type="radio">
+				</div>
+				<div class="mui-input-row mui-radio">
+					<label>其他问题</label>
+					<input name="radio1" type="radio" checked="">
+				</div>
+				
+			</form>
+			<p>
+				问题和意见
+			</p>
+			<textarea id="textarea" rows="5" placeholder="请简单描述您的问题和意见，若功能异常，上传页面截图更快解决哦"></textarea>
+			<p>
+				添加图片(选填)
+			</p>
+			<ul id="files" style="text-align:left;" class="mui-table-view mui-grid-view">
+				<p id="empty" style="font-size:12px;color:#C6C6C6;">无上传文件</p>
+			</ul>
+			<div class="mui-text-center">
+				<button class="mui-btn mui-btn-green" type="button"  onclick="appendByCamera()"  style="width: 100px;margin: 10px;">拍照</button>&nbsp;&nbsp;
+				<button class="mui-btn mui-btn-green" type="button"  onclick="appendByGallery()" style="width: 100px;margin: 10px;">相册选取</button>
+			</div>
+			<button type="button" class="mui-btn mui-btn-block mui-btn-green" onclick="upload()">提交</button>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/common1.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			mui('.mui-table-view-cell').on("tap","a",function(){
+				mui.openWindow({
+					url:this.href,
+					id:this.href,
+					preload: true,
+					show: {
+						aniShow: 'pop-in'
+					},
+					styles: {
+						popGesture: 'hide'
+					},
+					waiting: {
+						autoShow: false
+					}
+				})
+			})
+		</script>
+		<script type="text/javascript" src="../../js/immersed.js" ></script>
+	</body>
+
+</html>
+<!--function takePhoto() {
+	var cm = plus.camera.getCamera();
+	cm.captureImage(function(path) {
+		var url = "file://" + plus.io.convertLocalFileSystemURL(path);
+		var img1 = '<a href="' + url + '" data-size="1600x1068" data-med="' + url +
+			'" data-med-size="1024x1024"><img class="pic1" src="' +
+			url + '" style="width:150px;height:150px;"/></a>';
+		var imgBig = "<img class='pic' src='" + url + "'>";
+		$("#demo-test-gallery").append(img1);
+		$("#hiddenImg").append(imgBig);
+	});
+}
+//删除图片
+mui("#demo-test-gallery").on("longtap", "img.pic1", function() {
+	var This = this;
+	var btnArray = ['确认', '取消'];
+	mui.confirm('长按图片将会删除它', '确认删除？', btnArray, function(e) {
+		if(e.index == 0) {
+			This.parentNode.remove();
+			var hiddenImg = document.getElementsByClassName("pic");
+			for(var i = 0; i < hiddenImg.length; i++) {
+				if(hiddenImg[i].getAttribute("src") == This.getAttribute("src")) {
+					hiddenImg[i].remove();
+				}
+			}
+			var url = "/Ashx/PreworkInputHandler.ashx";
+			var data = {
+				action: "DelPicture",
+				id: This.getAttribute("id")
+			};
+			getAjax(url, data, successDelPic);
+		} else {
+			mui.toast("您取消了操作")
+		}
+	})
+});
+
+function successDelPic(e) {
+	mui.toast("图片删除成功");
+}-->

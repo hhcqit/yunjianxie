@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clinicalmall.kuaixiu.persistent.dao.PlanMapper">
+  <resultMap id="BaseResultMap" type="com.clinicalmall.kuaixiu.persistent.domain.Plan">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="deleteStatus" jdbcType="INTEGER" property="deleteStatus" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="periodType" jdbcType="INTEGER" property="periodType" />
+    <result column="period" jdbcType="INTEGER" property="period" />
+    <result column="warnDay" jdbcType="INTEGER" property="warnDay" />
+    <result column="executePermission" jdbcType="INTEGER" property="executePermission" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="equipId" jdbcType="BIGINT" property="equipId" />
+    <result column="orgId" jdbcType="BIGINT" property="orgId" />
+    <result column="createUser" jdbcType="BIGINT" property="createUser" />
+    <result column="updateUser" jdbcType="BIGINT" property="updateUser" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="executeCount" jdbcType="INTEGER" property="executeCount" />
+    <result column="startTime" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="latestExecuteTime" jdbcType="TIMESTAMP" property="latestExecuteTime" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="reserved" jdbcType="VARCHAR" property="reserved" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, createTime, deleteStatus, name, type, periodType, period, warnDay, executePermission, 
+    status, equipId, orgId, createUser, updateUser, content, executeCount, startTime, 
+    latestExecuteTime, updateTime, remark, reserved
+  </sql>
+  <select id="selectByExample" parameterType="com.clinicalmall.kuaixiu.persistent.domain.PlanExample" resultMap="BaseResultMap">
+    <include refid="OracleDialectPrefix" />
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from plan
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <include refid="OracleDialectSuffix" />
+    <include refid="MysqlDialect" />
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from plan
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from plan
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.clinicalmall.kuaixiu.persistent.domain.PlanExample">
+    delete from plan
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.clinicalmall.kuaixiu.persistent.domain.Plan">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into plan (createTime, deleteStatus, name, 
+      type, periodType, period, 
+      warnDay, executePermission, status, 
+      equipId, orgId, createUser, 
+      updateUser, content, executeCount, 
+      startTime, latestExecuteTime, updateTime, 
+      remark, reserved)
+    values (#{createTime,jdbcType=TIMESTAMP}, #{deleteStatus,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER}, #{periodType,jdbcType=INTEGER}, #{period,jdbcType=INTEGER}, 
+      #{warnDay,jdbcType=INTEGER}, #{executePermission,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{equipId,jdbcType=BIGINT}, #{orgId,jdbcType=BIGINT}, #{createUser,jdbcType=BIGINT}, 
+      #{updateUser,jdbcType=BIGINT}, #{content,jdbcType=VARCHAR}, #{executeCount,jdbcType=INTEGER}, 
+      #{startTime,jdbcType=TIMESTAMP}, #{latestExecuteTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=VARCHAR}, #{reserved,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.clinicalmall.kuaixiu.persistent.domain.Plan">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into plan
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="createTime != null">
+        createTime,
+      </if>
+      <if test="deleteStatus != null">
+        deleteStatus,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="periodType != null">
+        periodType,
+      </if>
+      <if test="period != null">
+        period,
+      </if>
+      <if test="warnDay != null">
+        warnDay,
+      </if>
+      <if test="executePermission != null">
+        executePermission,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="equipId != null">
+        equipId,
+      </if>
+      <if test="orgId != null">
+        orgId,
+      </if>
+      <if test="createUser != null">
+        createUser,
+      </if>
+      <if test="updateUser != null">
+        updateUser,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="executeCount != null">
+        executeCount,
+      </if>
+      <if test="startTime != null">
+        startTime,
+      </if>
+      <if test="latestExecuteTime != null">
+        latestExecuteTime,
+      </if>
+      <if test="updateTime != null">
+        updateTime,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="reserved != null">
+        reserved,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteStatus != null">
+        #{deleteStatus,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="periodType != null">
+        #{periodType,jdbcType=INTEGER},
+      </if>
+      <if test="period != null">
+        #{period,jdbcType=INTEGER},
+      </if>
+      <if test="warnDay != null">
+        #{warnDay,jdbcType=INTEGER},
+      </if>
+      <if test="executePermission != null">
+        #{executePermission,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="equipId != null">
+        #{equipId,jdbcType=BIGINT},
+      </if>
+      <if test="orgId != null">
+        #{orgId,jdbcType=BIGINT},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=BIGINT},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=BIGINT},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="executeCount != null">
+        #{executeCount,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="latestExecuteTime != null">
+        #{latestExecuteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="reserved != null">
+        #{reserved,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.clinicalmall.kuaixiu.persistent.domain.PlanExample" resultType="java.lang.Long">
+    select count(*) from plan
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update plan
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null">
+        createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deleteStatus != null">
+        deleteStatus = #{record.deleteStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.periodType != null">
+        periodType = #{record.periodType,jdbcType=INTEGER},
+      </if>
+      <if test="record.period != null">
+        period = #{record.period,jdbcType=INTEGER},
+      </if>
+      <if test="record.warnDay != null">
+        warnDay = #{record.warnDay,jdbcType=INTEGER},
+      </if>
+      <if test="record.executePermission != null">
+        executePermission = #{record.executePermission,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.equipId != null">
+        equipId = #{record.equipId,jdbcType=BIGINT},
+      </if>
+      <if test="record.orgId != null">
+        orgId = #{record.orgId,jdbcType=BIGINT},
+      </if>
+      <if test="record.createUser != null">
+        createUser = #{record.createUser,jdbcType=BIGINT},
+      </if>
+      <if test="record.updateUser != null">
+        updateUser = #{record.updateUser,jdbcType=BIGINT},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.executeCount != null">
+        executeCount = #{record.executeCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.startTime != null">
+        startTime = #{record.startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.latestExecuteTime != null">
+        latestExecuteTime = #{record.latestExecuteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reserved != null">
+        reserved = #{record.reserved,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update plan
+    set id = #{record.id,jdbcType=BIGINT},
+      createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      deleteStatus = #{record.deleteStatus,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=INTEGER},
+      periodType = #{record.periodType,jdbcType=INTEGER},
+      period = #{record.period,jdbcType=INTEGER},
+      warnDay = #{record.warnDay,jdbcType=INTEGER},
+      executePermission = #{record.executePermission,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      equipId = #{record.equipId,jdbcType=BIGINT},
+      orgId = #{record.orgId,jdbcType=BIGINT},
+      createUser = #{record.createUser,jdbcType=BIGINT},
+      updateUser = #{record.updateUser,jdbcType=BIGINT},
+      content = #{record.content,jdbcType=VARCHAR},
+      executeCount = #{record.executeCount,jdbcType=INTEGER},
+      startTime = #{record.startTime,jdbcType=TIMESTAMP},
+      latestExecuteTime = #{record.latestExecuteTime,jdbcType=TIMESTAMP},
+      updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      reserved = #{record.reserved,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.clinicalmall.kuaixiu.persistent.domain.Plan">
+    update plan
+    <set>
+      <if test="createTime != null">
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteStatus != null">
+        deleteStatus = #{deleteStatus,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="periodType != null">
+        periodType = #{periodType,jdbcType=INTEGER},
+      </if>
+      <if test="period != null">
+        period = #{period,jdbcType=INTEGER},
+      </if>
+      <if test="warnDay != null">
+        warnDay = #{warnDay,jdbcType=INTEGER},
+      </if>
+      <if test="executePermission != null">
+        executePermission = #{executePermission,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="equipId != null">
+        equipId = #{equipId,jdbcType=BIGINT},
+      </if>
+      <if test="orgId != null">
+        orgId = #{orgId,jdbcType=BIGINT},
+      </if>
+      <if test="createUser != null">
+        createUser = #{createUser,jdbcType=BIGINT},
+      </if>
+      <if test="updateUser != null">
+        updateUser = #{updateUser,jdbcType=BIGINT},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="executeCount != null">
+        executeCount = #{executeCount,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null">
+        startTime = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="latestExecuteTime != null">
+        latestExecuteTime = #{latestExecuteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="reserved != null">
+        reserved = #{reserved,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.clinicalmall.kuaixiu.persistent.domain.Plan">
+    update plan
+    set createTime = #{createTime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deleteStatus,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      periodType = #{periodType,jdbcType=INTEGER},
+      period = #{period,jdbcType=INTEGER},
+      warnDay = #{warnDay,jdbcType=INTEGER},
+      executePermission = #{executePermission,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      equipId = #{equipId,jdbcType=BIGINT},
+      orgId = #{orgId,jdbcType=BIGINT},
+      createUser = #{createUser,jdbcType=BIGINT},
+      updateUser = #{updateUser,jdbcType=BIGINT},
+      content = #{content,jdbcType=VARCHAR},
+      executeCount = #{executeCount,jdbcType=INTEGER},
+      startTime = #{startTime,jdbcType=TIMESTAMP},
+      latestExecuteTime = #{latestExecuteTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      reserved = #{reserved,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <sql id="OracleDialectPrefix">
+    <if test="page != null and _databaseId == 'oracle'">
+      select * from ( select row_.*, rownum rownum_ from ( 
+    </if>
+  </sql>
+  <sql id="OracleDialectSuffix">
+    <if test="page != null and _databaseId == 'oracle'">
+      <![CDATA[ ) row_ ) where rownum_ > #{page.begin} and rownum_ <= #{page.end} ]]>
+    </if>
+  </sql>
+  <sql id="MysqlDialect">
+    <if test="page != null and _databaseId == 'mysql'">
+      limit #{page.begin} , #{page.length}
+    </if>
+  </sql>
+</mapper>

@@ -1,0 +1,44 @@
+{
+  "data":[
+    {
+      "name": "张晓刚",
+      "phone": "13555846698",
+      "department":"生化",
+      "weixin": "264611",
+      "joinTime":"2017-10-10",
+      "style":"管理员"
+    },
+    {
+      "name": "李小红",
+      "phone": "13555846698",
+      "department":"生化",
+      "weixin": "264611",
+      "joinTime":"2017-10-10",
+      "style":"管理员"
+    },
+    {
+      "name": "王明",
+      "phone": "13555846698",
+      "department":"生化",
+      "weixin": "264611",
+      "joinTime":"2017-10-10",
+      "style":"管理员"
+    },
+    {
+      "name": "周伟",
+      "phone": "13555846698",
+      "department":"生化",
+      "weixin": "264611",
+      "joinTime":"2017-10-10",
+      "style":"管理员"
+    },
+    {
+      "name": "徐亚",
+      "phone": "13555846698",
+      "department":"生化",
+      "weixin": "264611",
+      "joinTime":"2017-10-10",
+      "style":"管理员"
+    }
+  ]
+}

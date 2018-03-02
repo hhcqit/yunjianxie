@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clinicalmall.kuaixiu.persistent.dao.WechatUserMapper">
+  <resultMap id="BaseResultMap" type="com.clinicalmall.kuaixiu.persistent.domain.WechatUser">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="deleteStatus" jdbcType="INTEGER" property="deleteStatus" />
+    <result column="openId" jdbcType="VARCHAR" property="openId" />
+    <result column="orgId" jdbcType="BIGINT" property="orgId" />
+    <result column="userId" jdbcType="BIGINT" property="userId" />
+    <result column="unionId" jdbcType="VARCHAR" property="unionId" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="country" jdbcType="VARCHAR" property="country" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="headImgUrl" jdbcType="VARCHAR" property="headImgUrl" />
+    <result column="privilege" jdbcType="VARCHAR" property="privilege" />
+    <result column="subscribeStatus" jdbcType="INTEGER" property="subscribeStatus" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, createTime, deleteStatus, openId, orgId, userId, unionId, nickname, sex, country, 
+    province, city, headImgUrl, privilege, subscribeStatus, updateTime
+  </sql>
+  <select id="selectByExample" parameterType="com.clinicalmall.kuaixiu.persistent.domain.WechatUserExample" resultMap="BaseResultMap">
+    <include refid="OracleDialectPrefix" />
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from wechat_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <include refid="OracleDialectSuffix" />
+    <include refid="MysqlDialect" />
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from wechat_user
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from wechat_user
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.clinicalmall.kuaixiu.persistent.domain.WechatUserExample">
+    delete from wechat_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.clinicalmall.kuaixiu.persistent.domain.WechatUser">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into wechat_user (createTime, deleteStatus, openId, 
+      orgId, userId, unionId, 
+      nickname, sex, country, 
+      province, city, headImgUrl, 
+      privilege, subscribeStatus, updateTime
+      )
+    values (#{createTime,jdbcType=TIMESTAMP}, #{deleteStatus,jdbcType=INTEGER}, #{openId,jdbcType=VARCHAR}, 
+      #{orgId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{unionId,jdbcType=VARCHAR}, 
+      #{nickname,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, #{country,jdbcType=VARCHAR}, 
+      #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{headImgUrl,jdbcType=VARCHAR}, 
+      #{privilege,jdbcType=VARCHAR}, #{subscribeStatus,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.clinicalmall.kuaixiu.persistent.domain.WechatUser">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into wechat_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="createTime != null">
+        createTime,
+      </if>
+      <if test="deleteStatus != null">
+        deleteStatus,
+      </if>
+      <if test="openId != null">
+        openId,
+      </if>
+      <if test="orgId != null">
+        orgId,
+      </if>
+      <if test="userId != null">
+        userId,
+      </if>
+      <if test="unionId != null">
+        unionId,
+      </if>
+      <if test="nickname != null">
+        nickname,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="country != null">
+        country,
+      </if>
+      <if test="province != null">
+        province,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="headImgUrl != null">
+        headImgUrl,
+      </if>
+      <if test="privilege != null">
+        privilege,
+      </if>
+      <if test="subscribeStatus != null">
+        subscribeStatus,
+      </if>
+      <if test="updateTime != null">
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteStatus != null">
+        #{deleteStatus,jdbcType=INTEGER},
+      </if>
+      <if test="openId != null">
+        #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null">
+        #{orgId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="unionId != null">
+        #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="country != null">
+        #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="headImgUrl != null">
+        #{headImgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="privilege != null">
+        #{privilege,jdbcType=VARCHAR},
+      </if>
+      <if test="subscribeStatus != null">
+        #{subscribeStatus,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.clinicalmall.kuaixiu.persistent.domain.WechatUserExample" resultType="java.lang.Long">
+    select count(*) from wechat_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update wechat_user
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null">
+        createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deleteStatus != null">
+        deleteStatus = #{record.deleteStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.openId != null">
+        openId = #{record.openId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgId != null">
+        orgId = #{record.orgId,jdbcType=BIGINT},
+      </if>
+      <if test="record.userId != null">
+        userId = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.unionId != null">
+        unionId = #{record.unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nickname != null">
+        nickname = #{record.nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sex != null">
+        sex = #{record.sex,jdbcType=INTEGER},
+      </if>
+      <if test="record.country != null">
+        country = #{record.country,jdbcType=VARCHAR},
+      </if>
+      <if test="record.province != null">
+        province = #{record.province,jdbcType=VARCHAR},
+      </if>
+      <if test="record.city != null">
+        city = #{record.city,jdbcType=VARCHAR},
+      </if>
+      <if test="record.headImgUrl != null">
+        headImgUrl = #{record.headImgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.privilege != null">
+        privilege = #{record.privilege,jdbcType=VARCHAR},
+      </if>
+      <if test="record.subscribeStatus != null">
+        subscribeStatus = #{record.subscribeStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateTime != null">
+        updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update wechat_user
+    set id = #{record.id,jdbcType=BIGINT},
+      createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      deleteStatus = #{record.deleteStatus,jdbcType=INTEGER},
+      openId = #{record.openId,jdbcType=VARCHAR},
+      orgId = #{record.orgId,jdbcType=BIGINT},
+      userId = #{record.userId,jdbcType=BIGINT},
+      unionId = #{record.unionId,jdbcType=VARCHAR},
+      nickname = #{record.nickname,jdbcType=VARCHAR},
+      sex = #{record.sex,jdbcType=INTEGER},
+      country = #{record.country,jdbcType=VARCHAR},
+      province = #{record.province,jdbcType=VARCHAR},
+      city = #{record.city,jdbcType=VARCHAR},
+      headImgUrl = #{record.headImgUrl,jdbcType=VARCHAR},
+      privilege = #{record.privilege,jdbcType=VARCHAR},
+      subscribeStatus = #{record.subscribeStatus,jdbcType=INTEGER},
+      updateTime = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.clinicalmall.kuaixiu.persistent.domain.WechatUser">
+    update wechat_user
+    <set>
+      <if test="createTime != null">
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteStatus != null">
+        deleteStatus = #{deleteStatus,jdbcType=INTEGER},
+      </if>
+      <if test="openId != null">
+        openId = #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null">
+        orgId = #{orgId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        userId = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="unionId != null">
+        unionId = #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="country != null">
+        country = #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="headImgUrl != null">
+        headImgUrl = #{headImgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="privilege != null">
+        privilege = #{privilege,jdbcType=VARCHAR},
+      </if>
+      <if test="subscribeStatus != null">
+        subscribeStatus = #{subscribeStatus,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.clinicalmall.kuaixiu.persistent.domain.WechatUser">
+    update wechat_user
+    set createTime = #{createTime,jdbcType=TIMESTAMP},
+      deleteStatus = #{deleteStatus,jdbcType=INTEGER},
+      openId = #{openId,jdbcType=VARCHAR},
+      orgId = #{orgId,jdbcType=BIGINT},
+      userId = #{userId,jdbcType=BIGINT},
+      unionId = #{unionId,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      country = #{country,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      headImgUrl = #{headImgUrl,jdbcType=VARCHAR},
+      privilege = #{privilege,jdbcType=VARCHAR},
+      subscribeStatus = #{subscribeStatus,jdbcType=INTEGER},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <sql id="OracleDialectPrefix">
+    <if test="page != null and _databaseId == 'oracle'">
+      select * from ( select row_.*, rownum rownum_ from ( 
+    </if>
+  </sql>
+  <sql id="OracleDialectSuffix">
+    <if test="page != null and _databaseId == 'oracle'">
+      <![CDATA[ ) row_ ) where rownum_ > #{page.begin} and rownum_ <= #{page.end} ]]>
+    </if>
+  </sql>
+  <sql id="MysqlDialect">
+    <if test="page != null and _databaseId == 'mysql'">
+      limit #{page.begin} , #{page.length}
+    </if>
+  </sql>
+</mapper>

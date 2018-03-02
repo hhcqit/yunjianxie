@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>科临脉云设备管理平台</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <!--bootstrapvalidator-->
+    <link rel="stylesheet" href="../lib/bootstrapvalidator/css/bootstrapValidator.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/Ionicons/css/ionicons.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="../lib/dataTables/dataTables.bootstrap.min.css">
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/plugins/iCheck/all.css">
+    <!-- Bootstrap time Picker -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/plugins/timepicker/bootstrap-timepicker.min.css">
+    <!--select2-->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/select2/dist/css/select2.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/dist/css/skins/_all-skins.min.css">
+    <!-- Date Picker -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/bootstrap-daterangepicker/daterangepicker.css">
+    <!-- bootstrap wysihtml5 - text editor -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+    <!--评分组件-->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/bootstrap-star-rating-master/css/star-rating.css">
+    <!--webuploader-->
+    <link rel="stylesheet" href="../lib/webuploader/webuploader.css">
+    <!--自定义样式-->
+    <link rel="stylesheet" href="../css/common.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="../js/html5shiv.min.js"></script>
+    <script src="../js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="hold-transition skin-purple sidebar-mini">
+    <div class="wrapper" id="device">
+        <!--头部-->
+        <my-header v-bind:my-name="org.name"></my-header>
+        <my-aside v-bind:my-name="user.userName" v-bind:my-type="org.type"></my-aside>
+        <my-content></my-content>
+        <my-footer></my-footer>
+    </div>
+    <!-- ./wrapper -->
+    <script type="text/x-template" id="main-template">
+         <!-- 中间内容 -->
+    <div class="content-wrapper">
+        <!--中间内容-头部-->
+        <section class="content-header">
+            <h1>
+                我的设备
+            </h1>
+        </section>
+
+        <!--中间内容-主体-->
+        <section class="content">
+            <div class="row">
+                <div class="col-xs-12">
+                    <!--no-search指没有datatables搜索栏-->
+                    <div class="box no-search">
+                        <div class="box-body">
+                            <div id="alertArea"></div>
+                            <form class="form-inline  has-success has-feedback tableSearch" id="merchant-list_length-from-one">
+                                <button type="button" class="btn btn-primary  icon-plus" @click="add">添加
+                                </button>
+                                <button type="button" class="btn btn-warning  icon-plus" @click="upd">修改
+                                </button>
+                                <button type="button" class="btn btn-danger  icon-plus" @click="del" data-target="#modalDel">删除
+                                </button>
+                                <button type="button" class="btn btn-success  icon-plus" @click="bind" data-target="#modalBind" id="bindBtn">绑定{{bindBtn}}
+                                </button>
+                                <button type="button" class="btn btn-info  icon-plus" @click="check" data-target="#modalChk">验收记录
+                                </button>
+                                <select id="selectProvide" class="select2 js-states form-control" style="width: 150px">
+                                    <!-- <option value="东方公司">东方公司</option>
+                                <option value="西方公司">西方公司</option> -->
+                                </select>
+                                <!--<input type="text" class="form-control global_filter" style="width: 150px;" id="global_filter" >-->
+                                <div class="input-group" style="width: 200px;">
+                                    <span class="input-group-addon">搜索...</span>
+                                    <input type="text" class="form-control global_filter" id="global_filter">
+                                </div>
+                            </form>
+                            <table id="merchant-list" class="table table-bordered table-striped table-hover display">
+                                <thead>
+                                    <tr>
+                                        <th>设备编号</th>
+                                        <th>设备名称</th>
+                                        <th>设备型号</th>
+                                        <th>{{bindBtn}}</th>
+                                        <th>使用部门</th>
+                                        <th>制造商</th>
+                                        <th>产地</th>
+                                        <th>制造联系人</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+            <!--添加*修改-->
+            <div class="modal fade bs-example-modal-lg" id="modalAdd" style="display: none;">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <form class="form-horizontal" id="addForm" method="post">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                                <h4 class="modal-title">我的设备-添加</h4>
+                            </div>
+                            <div class="modal-body row">
+                                <!--<div class="box-body">-->
+                                <input type="hidden" name="id" class="form-control" placeholder="主键" value="">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">设备编号</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="code" class="form-control" placeholder="请输入设备编号">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">设备名称</label>
+
+                                        <div class="col-sm-9">
+                                            <input type="text" name="name" class="form-control" placeholder="请输入设备名称">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">设备型号</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" name="model" placeholder="请输入设备型号">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">使用部门</label>
+                                        <div class="col-sm-9">
+                                            <select class="select2 js-states form-control" style="width: 100%;" data-placeholder="请选择部门" name="usedDept">
+                                                <option value="生化">生化</option>
+                                                <option value="免疫">免疫</option>
+                                                <option value="前处理">前处理</option>
+                                                <option value="放免">放免</option>
+                                                <option value="门诊">门诊</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">制造商</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" name="manufacturer" placeholder="制造商">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">产地</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" name="madeArea" placeholder="产地">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">制造联系人</label>
+
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" name="manufacturerContact" placeholder="制造联系人">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">制造人电话</label>
+
+                                        <div class="col-sm-9">
+                                            <input type="tel" class="form-control" name="manufacturerTelephone" placeholder="制造人电话">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">供应商</label>
+
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" name="supplier" placeholder="供应商">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">供应联系人</label>
+
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" name="supplierContact" placeholder="供应联系人">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">供应人电话</label>
+
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" name="supplierTelephone" placeholder="供应联系电话">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">出厂日期:</label>
+
+                                        <div class="col-sm-9">
+                                            <div class="input-group date">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="text" class="form-control pull-right datepicker" name="madeTime" id="datepicker1">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">出厂编号</label>
+
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" name="madeNo" placeholder="出厂编号">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">启用日期:</label>
+
+                                        <div class="col-sm-9">
+                                            <div class="input-group date">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="text" class="form-control pull-right datepicker" name="usedTime" id="datepicker2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">购进日期:</label>
+
+                                        <div class="col-sm-9">
+                                            <div class="input-group date">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="text" class="form-control pull-right datepicker" name="purchasedTime" id="datepicker3">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">检定周期:</label>
+
+                                        <div class="col-sm-6">
+                                            <div class="input-group spinner">
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-info btn-flat minus">
+                                                        <i class="fa fa-caret-down"></i>
+                                                    </button>
+                                                </span>
+                                                <input type="text" class="form-control" name="checkPeriod" placeholder="周期" value="5" onchange="if(/\D/.test(this.value)){alert('只能输入正整数');this.value='5';}">
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-info btn-flat plus">
+                                                        <i class="fa fa-caret-up"></i>
+                                                    </button>
+                                                </span>
+                                                <span class="unit">天</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">安装位置</label>
+
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" name="place" placeholder="安装位置">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">责任人</label>
+
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" name="owner" placeholder="责任人">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">执行权限</label>
+                                        <div class="col-sm-9">
+                                            <select class="select2 js-states form-control" style="width: 100%;" name="checkPermission" data-placeholder="请选择执行权限">
+                                                <option value="0">不限制</option>
+                                                <option value="1">内部执行</option>
+                                                <option value="2">外部执行</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--</div>-->
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default pull-left" @click="FnEditCancel('#modalAdd')">关闭</button>
+                                <button type="button" class="btn btn-info" id="editSaveBtn" @click="FnEditSave">保存</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!--绑定服务商-->
+            <div class="modal fade" id="modalBind" style="display: none;">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form class="form-horizontal" id="bindForm">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                                <h4 class="modal-title">我的设备-{{bindBtn}}</h4>
+                            </div>
+                            <div class="modal-body row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">{{bindBtn}}</label>
+                                        <div class="col-sm-9">
+                                            <select class="select2 js-states form-control" style="width: 100%;" id="custmerOrproviderSel">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--</div>-->
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
+                                <button type="button" class="btn btn-info" @click=" FnBindSave">绑定</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!--验收记录-->
+            <div class="modal fade bs-example-modal-lg" id="modalChk" style="display: none;">
+                <div class="modal-dialog modal-lg modal-xlg">
+                    <form id="chkForm">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="box">
+                                    <div class="box-header text-right">
+                                        <h3 class="text-center" style="margin: 0;">仪器设备验收实验记录表</h3>
+                                        <div class="text-right" v-show="firstCheck">
+                                            <button type="button" class="btn btn-info  icon-plus" @click="FnAddRecord">新增一条记录</button>
+                                            <!-- <button type="button" class="btn btn-danger  icon-plus" @click="FnDelRecord">删除一条记录 -->
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <!-- /.box-header -->
+                                    <div class="box-body table-responsive no-padding">
+                                        <!-- 设备验收主键 -->
+                                        <div style="display:none">{{checkFormId}}</div>
+                                        <table id="checkRecord" class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th style="display:none">项目验收记录主键</th>
+                                                    <th style="display:none">设备验收主键</th>
+                                                    <th>实验项目</th>
+                                                    <th>计量单位</th>
+                                                    <th>标准值</th>
+                                                    <th>测定值</th>
+                                                    <th>误差</th>
+                                                    <th>结论</th>
+                                                    <th>备注</th>
+                                                    <th v-show="!status">操作</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(item, index) in checkFormList">
+                                                    <td style="display:none">
+                                                        {{item.id}}
+                                                    </td>
+                                                    <td style="display:none">
+                                                        {{item.examineId}}
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="name" class="form-control" v-model="item.name" :disabled="item.disabled">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="unit" class="form-control" v-model="item.unit" :disabled="item.disabled">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="standardValue" class="form-control" v-model="item.standardValue" :disabled="item.disabled">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="measureValue" class="form-control" v-model="item.measureValue" :disabled="item.disabled">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="deviationValue" class="form-control" v-model="item.deviationValue" :disabled="item.disabled">
+                                                    </td>
+                                                    <td>
+                                                        <select name="isQualified" class="form-control" style="min-width:100px" v-model="item.isQualified" :disabled="item.disabled">
+                                                            <option value="0">不合格</option>
+                                                            <option value="1">合格</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="remark" class="form-control" v-model="item.remark" style="min-width:120px;" :disabled="item.disabled">
+                                                    </td>
+                                                    <td style="width:130px" v-show="!status">
+                                                        <button type="button" class="btn btn-primary  icon-plus" :disabled="item.disabled" @click="editTodo(index)">修改</button>
+                                                        <button type="button" class="btn btn-danger  icon-plus" :disabled="item.disabled" @click="deleteTodo(index)">删除</button>
+                                                    </td>
+                                                </tr>
+                                                <tr class="checkFormAddList" v-for="(item, index) in checkFormAddList">
+                                                    <td style="display:none">
+                                                        {{item.id}}
+                                                    </td>
+                                                    <td style="display:none">
+                                                        {{item.examineId}}
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="name" class="form-control" v-model="item.name" :disabled="item.disabled">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="unit" class="form-control" v-model="item.unit" :disabled="item.disabled">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="standardValue" class="form-control" v-model="item.standardValue" :disabled="item.disabled">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="measureValue" class="form-control" v-model="item.measureValue" :disabled="item.disabled">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="deviationValue" class="form-control" v-model="item.deviationValue" :disabled="item.disabled">
+                                                    </td>
+                                                    <td>
+                                                        <select name="isQualified" class="form-control" style="min-width:100px" v-model="item.isQualified" :disabled="item.disabled">
+                                                            <option value="0">不合格</option>
+                                                            <option value="1">合格</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="remark" class="form-control" v-model="item.remark" style="min-width:120px;" :disabled="item.disabled">
+                                                    </td>
+                                                    <td v-show="!status">
+                                                        <button type="button" class="btn btn-danger  icon-plus" @click="removeTodo(index)" :disabled="item.disabled">删除</button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="col-xs-6">
+                                            <textarea class="form-control" placeholder="验收依据" v-model="reference"></textarea>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <textarea class="form-control" placeholder="验收结论" v-model="conclusion"></textarea>
+                                        </div>
+                                    </div>
+                                    <!-- /.box-body -->
+                                    <div class="box-footer modal-footer">
+                                        <button type="button" class="btn btn-default pull-left" @click="FnEditCancel('#modalChk')">关闭</button>
+                                        <button type="button" class="btn btn-info" @click="FnChkSubmit" v-show="firstCheck">提交</button>
+                                        <button type="button" class="btn btn-info" @click="FnChkSubmit" v-show="!firstCheck && !status">验收依据(结论)修改</button>
+                                        <button type="button" class="btn btn-danger" @click="FnChkArchive" v-show="!firstCheck && !status">归档</button>
+                                    </div>
+                                </div>
+                                <!-- /.box -->
+                            </div>
+                            <!--</div>-->
+                        </div>
+
+                    </form>
+
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+        </section>
+    </div>
+    <!-- /中间内容 -->
+    </script>
+    <!-- jQuery 3 -->
+    <script src="../AdminLTE-2.4.2/bower_components/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="../AdminLTE-2.4.2/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!--bootstrapvalidator-->
+    <script src="../lib/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+    <!-- Select2 -->
+    <script src="../AdminLTE-2.4.2/bower_components/select2/dist/js/select2.full.min.js"></script>
+    <!-- DataTables -->
+    <script src="../lib/dataTables/jquery.dataTables.min.js"></script>
+    <script src="../lib/dataTables/dataTables.bootstrap.min.js"></script>
+    <!-- InputMask -->
+    <script src="../AdminLTE-2.4.2/plugins/input-mask/jquery.inputmask.js"></script>
+    <script src="../AdminLTE-2.4.2/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+    <script src="../AdminLTE-2.4.2/plugins/input-mask/jquery.inputmask.extensions.js"></script>
+    <!-- date-range-picker -->
+    <script src="../AdminLTE-2.4.2/bower_components/moment/min/moment.min.js"></script>
+    <script src="../AdminLTE-2.4.2/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <!-- bootstrap datepicker -->
+    <script src="../AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <!-- bootstrap time picker -->
+    <script src="../AdminLTE-2.4.2/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+    <!-- SlimScroll -->
+    <script src="../AdminLTE-2.4.2/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="../AdminLTE-2.4.2/bower_components/fastclick/lib/fastclick.js"></script>
+    <!-- AdminLTE App -->
+    <script src="../AdminLTE-2.4.2/dist/js/adminlte.min.js"></script>
+    <!--bootstrap-star-rating-->
+    <script src="../AdminLTE-2.4.2/bower_components/bootstrap-star-rating-master/js/star-rating.js"></script>
+    <!--sweetalert-->
+    <script src="../js/sweetalert.min.js"></script>
+    <!--webuploader-->
+    <script src="../lib/webuploader/webuploader.js"></script>
+    <script src="../js/vue.js"></script>
+    <script src="../js/vue-router.js"></script>
+    <script src="../script/common.js"></script>
+    <script src="../script/device.js"></script>
+</body>
+
+</html>

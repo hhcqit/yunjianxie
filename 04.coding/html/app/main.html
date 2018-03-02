@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/font-awesome-4.7.0/font-awesome-4.7.0/css/font-awesome.css">
+		<link rel="stylesheet" href="css/style.css">
+		
+	</head>
+	
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<h1 id="title" class="mui-title">看板</h1>
+		</header>
+		<nav class="mui-bar mui-bar-tab">
+			<a id="defaultTab" class="mui-tab-item mui-active" href="pages/main/spectaculars.html">
+				<span class="mui-icon fa fa-square-o"><span class="mui-badge">1</span></span>
+				<span class="mui-tab-label">看板</span>
+			</a>
+			<a class="mui-tab-item" href="pages/main/work.html">
+				<span class="mui-icon fa fa-th-large"></span>
+				<span class="mui-tab-label">工作</span>
+			</a>
+
+			<a class="mui-tab-item" href="pages/main/user.html">
+				<span class="mui-icon fa fa-user-o"></span>
+				<span class="mui-tab-label">我的</span>
+			</a>
+		</nav>
+		<script src="js/mui.min.js"></script>
+		<script src="js/common1.js"></script>
+		<script>
+			//mui初始化 
+			mui.init({
+					//下拉刷新、上拉加载
+					pullRefresh: {
+						//...
+					},
+					//手势配置
+					gestureConfig: {
+						//...
+					},
+					//侧滑关闭
+					swipeBack: true, //Boolean(默认false)启用右滑关闭功能
+
+					//设置状态栏颜色
+					statusBarBackground: '#45B2EA', //设置状态栏颜色,仅iOS可用
+					preloadLimit: 5 //预加载窗口数量限制(一旦超出,先进先出)默认不限制
+				})
+			var subpages = ['pages/main/spectaculars.html', 'pages/main/work.html',  'pages/main/user.html'];
+			var subpage_style = {
+				top: '45px',
+				bottom: '51px'
+			};
+
+			var aniShow = {};
+
+			//创建子页面，首个选项卡页面显示，其它均隐藏；
+			mui.plusReady(function() {
+				//仅支持竖屏显示
+				plus.screen.lockOrientation("portrait-primary");
+				var self = plus.webview.currentWebview();
+				for(var i = 0; i < subpages.length; i++) {
+					var temp = {};
+					var sub = plus.webview.create(subpages[i], subpages[i], subpage_style);
+					if(i > 0) {
+						sub.hide();
+					} else {
+						temp[subpages[i]] = "true";
+						mui.extend(aniShow, temp); //合并为aniShow对象
+					}
+					self.append(sub);
+				}
+				//	console.log(JSON.stringify(aniShow));
+			
+			});
+			//当前激活选项
+			var activeTab = subpages[0];
+			var title = document.getElementById("title");
+			//选项卡点击事件
+			mui('.mui-bar-tab').on('tap', 'a', function(e) {
+				var targetTab = this.getAttribute('href');
+				if(targetTab == activeTab) {
+					return;
+				}
+				//更换标题
+				title.innerHTML = this.querySelector('.mui-tab-label').innerHTML;
+				//显示目标选项卡
+				//若为iOS平台或非首次显示，则直接显示
+				if(mui.os.ios || aniShow[targetTab]) {
+					plus.webview.show(targetTab);
+				} else {
+					//否则，使用fade-in动画，且保存变量
+					var temp = {};
+					temp[targetTab] = "true";
+					mui.extend(aniShow, temp);
+					plus.webview.show(targetTab, "fade-in", 100);
+
+				}
+				//隐藏当前;
+				plus.webview.hide(activeTab);
+				//更改当前活跃的选项卡
+				activeTab = targetTab;
+			});
+
+			
+		</script>
+	</body>
+
+</html>

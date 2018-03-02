@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ~ Copyright 2017 The JianXiu Project -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.clinicalmall.kuaixiu</groupId>
+		<artifactId>kuaixiu-parent</artifactId>
+		<version>0.0.1.Alpha</version>
+	</parent>
+	<artifactId>kuaixiu-persistent</artifactId>
+	<packaging>jar</packaging>
+
+	<name>kuaixiu/persistent</name>
+
+	<properties>
+		<!-- MyBatis Generator -->
+		<!-- Java接口和实体类 -->
+		<targetJavaProject>${basedir}\src\main\java</targetJavaProject>
+		<targetMapperPackage>com.clinicalmall.kuaixiu.persistent.dao</targetMapperPackage>
+		<targetModelPackage>com.clinicalmall.kuaixiu.persistent.domain</targetModelPackage>
+		<!-- XML生成路径 -->
+		<targetResourcesProject>${basedir}\src\main\resources</targetResourcesProject>
+		<targetXMLPackage>com.clinicalmall.kuaixiu.persistent.mapper</targetXMLPackage>
+		<!-- 依赖版本 -->
+		<mybatis.generator.version>1.3.4</mybatis.generator.version>
+		<tk.mapper.version>3.4.0</tk.mapper.version>
+	</properties>
+	<dependencies>
+		<!-- 项目内依赖 -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>kuaixiu-bo</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>${mybatis.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis.generator</groupId>
+			<artifactId>mybatis-generator-maven-plugin</artifactId>
+			<version>${mybatis.generator.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>tk.mybatis</groupId>
+			<artifactId>mapper</artifactId>
+			<version>${tk.mapper.version}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<id>build</id>
+						<phase>build</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<echo message="delete dir ..." />
+								<delete dir="${targetResourcesProject}/com" />
+							</tasks>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.mybatis.generator</groupId>
+				<artifactId>mybatis-generator-maven-plugin</artifactId>
+				<version>${mybatis.generator.version}</version>
+				<configuration>
+					<configurationFile>${basedir}\src\main\resources\generator\generatorConfig.xml</configurationFile>
+					<overwrite>true</overwrite>
+					<verbose>true</verbose>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>mysql</groupId>
+						<artifactId>mysql-connector-java</artifactId>
+						<version>${mysql.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>com.az</groupId>
+						<artifactId>pagination-plugin</artifactId>
+						<version>1.0</version>
+						<scope>system</scope>
+						<systemPath>${project.basedir}\libs\pagination-plugin.jar</systemPath>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+	</build>
+</project>

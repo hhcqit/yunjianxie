@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>科临脉云设备管理平台</title>
+
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/Ionicons/css/ionicons.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="../lib/dataTables/dataTables.bootstrap.min.css">
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/plugins/iCheck/all.css">
+    <!-- Bootstrap time Picker -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/plugins/timepicker/bootstrap-timepicker.min.css">
+    <!--select2-->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/select2/dist/css/select2.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/dist/css/skins/_all-skins.min.css">
+    <!-- Date Picker -->
+    <link rel="stylesheet"
+          href="../AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/bootstrap-daterangepicker/daterangepicker.css">
+    <!-- bootstrap wysihtml5 - text editor -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="../js/html5shiv.min.js"></script>
+    <script src="../js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="hold-transition skin-purple sidebar-mini">
+<div class="wrapper" id="index">
+     <my-header v-bind:my-name="org.name"></my-header>
+       <my-aside v-bind:my-name="user.userName" v-bind:my-type="org.type"></my-aside>
+    <my-content></my-content>
+    <!-- /中间内容 -->
+    <!--尾部-->
+    <my-footer></my-footer>
+    <!--/尾部-->
+</div>
+<!-- ./wrapper -->
+<script type="text/x-template" id="main-template">
+    <!-- 中间内容 -->
+    <div class="content-wrapper">
+        <!--中间内容-头部-->
+        <section class="content-header">
+            <h1>
+                首页
+            </h1>
+        </section>
+        <!--中间内容-主体-->
+       <section class="content">
+           <div class="row">
+               <div class="col-xs-12">
+                   <div class="box">
+                       <div class="box-body">
+                           首页主体内容
+                           <div>。。。</div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </section>
+    </div>
+</script>
+<!-- jQuery 3 -->
+<script src="../AdminLTE-2.4.2/bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="../AdminLTE-2.4.2/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- Select2 -->
+<script src="../AdminLTE-2.4.2/bower_components/select2/dist/js/select2.full.min.js"></script>
+<!-- DataTables -->
+<script src="../lib/dataTables/jquery.dataTables.min.js"></script>
+<script src="../lib/dataTables/dataTables.bootstrap.min.js"></script>
+<!-- InputMask -->
+<script src="../AdminLTE-2.4.2/plugins/input-mask/jquery.inputmask.js"></script>
+<script src="../AdminLTE-2.4.2/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+<script src="../AdminLTE-2.4.2/plugins/input-mask/jquery.inputmask.extensions.js"></script>
+<!-- date-range-picker -->
+<script src="../AdminLTE-2.4.2/bower_components/moment/min/moment.min.js"></script>
+<script src="../AdminLTE-2.4.2/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+<!-- bootstrap datepicker -->
+<script src="../AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<!-- bootstrap time picker -->
+<script src="../AdminLTE-2.4.2/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+<!-- SlimScroll -->
+<script src="../AdminLTE-2.4.2/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="../AdminLTE-2.4.2/bower_components/fastclick/lib/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="../AdminLTE-2.4.2/dist/js/adminlte.min.js"></script>
+<!--sweetalert-->
+<script src="../js/sweetalert.min.js"></script>
+<!--my script-->
+<script src="../js/vue.js"></script>
+<script src="../js/vue-router.js"></script>
+<script src="../script/common.js"></script>
+<script src="../script/index.js"></script>
+</body>
+</html>

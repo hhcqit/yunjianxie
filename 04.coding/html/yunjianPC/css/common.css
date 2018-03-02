@@ -1,0 +1,62 @@
+/*div.dataTables_wrapper div.dataTables_filter {*/
+/*text-align: left;*/
+/*}*/
+table tbody tr.selected {
+    background-color: #abb9d3 !important;
+}
+
+@media (min-width: 1440px) {
+    .modal-lg {
+        width: 1200px;
+    }
+}
+.uploader-list .row.item{
+    border: 1px solid green;margin-bottom: 10px;padding: 10px;
+}
+/**修改datatables宽度设置，使得宽度不够时出现滚动条**/
+.dataTables_wrapper {
+    position: relative;
+    clear: both;
+    zoom: 1;
+    overflow-x: auto;
+}
+.dataTables_wrapper .row {
+    margin-right:0;
+    margin-left: 0;
+}
+/**隐藏了搜索框*/
+.box.no-search div.dataTables_wrapper div.dataTables_filter{
+    display:none;
+}
+/*改变表格中搜索框颜色*/
+.has-success.tableSearch .input-group-addon {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #3c763d;
+}
+/*
+*加减输入框组件样式
+*/
+.spinner{
+    width: 200px;
+}
+.spinner input{
+    padding-left: 0;padding-right: 0;text-align: center;
+}
+.spinner .unit{
+    display: table-cell;vertical-align: middle;white-space: nowrap;width: 40px;text-align: center;
+}
+/*
+*禁用输入域横向拉伸
+ */
+textarea{
+    resize:vertical;
+}
+/*搜索按钮的下边距*/
+.tableSearch{
+    line-height: 3em;
+    margin-left: 15px;
+}
+.qrcode{
+    width:150px; height:150px; margin:0 auto;
+}

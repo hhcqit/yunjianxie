@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>科脉| 实验室注册22</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="AdminLTE-2.4.2/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <!--bootstrapvalidator-->
+    <link rel="stylesheet" href="lib/bootstrapvalidator/css/bootstrapValidator.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="AdminLTE-2.4.2/bower_components/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="AdminLTE-2.4.2/bower_components/Ionicons/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="AdminLTE-2.4.2/dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="AdminLTE-2.4.2/dist/css/skins/_all-skins.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="AdminLTE-2.4.2/plugins/iCheck/square/green.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.min.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="css/login.css">
+    <style>
+        .jiekou button {
+            margin: 0 20px;
+        }
+
+        #response {
+            margin: 20px;
+            border: 1px solid red;
+            padding: 20px;
+            overflow-x: auto;
+            height: 400px;
+        }
+    </style>
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper" id="labRegister">
+        <div class="jiekou">
+            <button onclick="getShebei()">获取设备信息列表</button>
+            <button onclick="regsiter()">注册</button>
+            <button onclick="login1()">实验室登录接口</button>
+            <button onclick="login2()">服务商登录接口</button>
+
+        </div>
+        <div class="response">
+            <h1>响应</h1>
+            <div id="response"></div>
+        </div>
+    </div>
+
+    <!-- ./wrapper -->
+    <!-- jQuery 3 -->
+    <script src="AdminLTE-2.4.2/bower_components/jquery/dist/jquery.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="AdminLTE-2.4.2/bower_components/jquery-ui/jquery-ui.min.js"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <!-- Bootstrap 3.3.7 -->
+    <script src="AdminLTE-2.4.2/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <!--bootstrapvalidator-->
+    <script src="lib/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+    <!-- Slimscroll -->
+    <script src="AdminLTE-2.4.2/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="AdminLTE-2.4.2/bower_components/fastclick/lib/fastclick.js"></script>
+    <!-- AdminLTE App -->
+    <script src="AdminLTE-2.4.2/dist/js/adminlte.min.js"></script>
+    <script src="AdminLTE-2.4.2/plugins/iCheck/icheck.min.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="script/common.js"></script>
+    <script>
+        sessionStorage.setItem("token", "18258456811");
+        var url = "http://localhost:8086/kuaixiu-web";
+        //组织注册POST /org/register
+        function regsiter() {
+            var code = prompt("请输入验证码code");
+            var mobile = prompt("手机号mobile");
+            var name = prompt("名称name");
+            var password = prompt("密码password");
+            var type = parseInt(prompt("类型1实验室2服务商type"));
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8;",
+                xhrFields: {
+                    //设置跨域请求
+                    withCredentials: true
+                },
+                //          beforeSend: function (xhr) {
+                //              xhr.setRequestHeader("token", "18258456811");
+                //          },
+                url: url + '/org/register',
+                data: JSON.stringify({
+                    "code": code,//验证码
+                    "mobile": mobile,//手机号
+                    "name": name,//名称
+                    "password": password,//密码
+                    "type": type //1是实验室，2是服务商
+                }),
+                success: function (data) {
+                    response.innerHTML = JSON.stringify(data);
+                },
+                err: function (err) {
+                    alert(err);
+                }
+            })
+        }
+        //login服务商登录
+        function login2() {
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8;",
+                xhrFields: {
+                    //设置跨域请求
+                    withCredentials: true
+                },
+                //          beforeSend: function (xhr) {
+                //              xhr.setRequestHeader("token", "18258456811");
+                //          },
+                url: url + '/user/login',
+                data: JSON.stringify({
+                    "mobile": "18258456811",
+                    "password": "123456"
+                }),
+                headers: {
+                    'token': "18258456811",
+                },
+                success: function (data) {
+                    response.innerHTML = JSON.stringify(data);
+                },
+                err: function (err) {
+                    alert(err);
+                }
+            })
+        }
+        //login实验室登录
+        function login1() {
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8;",
+                xhrFields: {
+                    //设置跨域请求
+                    withCredentials: true
+                },
+                //          beforeSend: function (xhr) {
+                //              xhr.setRequestHeader("token", "18258456811");
+                //          },
+                url: url + '/user/login',
+                data: JSON.stringify({
+                    "mobile": "18130250730",
+                    "password": "123456"
+                }),
+                headers: {
+                    'token': "18258456811",
+                },
+                success: function (data) {
+                    response.innerHTML = JSON.stringify(data);
+                },
+                err: function (err) {
+                    alert(err);
+                }
+            })
+        }
+        //设备列表信息
+        function getShebei() {
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8;",
+                xhrFields: {
+                    //设置跨域请求
+                    withCredentials: true
+                },
+                url: url + '/equipment/getList',
+                data: JSON.stringify({
+                    "code": "",
+                    "name": "",
+                    "pageNumber": 0,
+                    "pageSize": 10000,
+                    "status": 0
+                }),
+                headers: {
+                    'token': "18258456811",
+                },
+                success: function (data) {
+                    response.innerHTML = JSON.stringify(data);
+                },
+                err: function (err) {
+                    alert(err);
+                }
+            })
+        }
+        //组织注册POST /org/register
+        function regsiter() {
+            var code = prompt("请输入验证码code");
+            var mobile = prompt("手机号mobile");
+            var name = prompt("名称name");
+            var password = prompt("密码password");
+            var type = parseInt(prompt("类型1实验室2服务商type"));
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8;",
+                xhrFields: {
+                    //设置跨域请求
+                    withCredentials: true
+                },
+                //          beforeSend: function (xhr) {
+                //              xhr.setRequestHeader("token", "18258456811");
+                //          },
+                url: url + '/org/register',
+                data: JSON.stringify({
+                    "code": code,//验证码
+                    "mobile": mobile,//手机号
+                    "name": name,//名称
+                    "password": password,//密码
+                    "type": type //1是实验室，2是服务商
+                }),
+                success: function (data) {
+                    response.innerHTML = JSON.stringify(data);
+                },
+                err: function (err) {
+                    alert(err);
+                }
+            })
+        }
+
+    </script>
+
+
+
+    <form id="uploadForm">
+        <p>指定文件名：
+            <input type="text" name="filename" value="" />
+        </p>
+        <p>上传文件：
+            <input type="file" name="file" accept="image/*" />
+            <input type="file" name="file2" accept="image/*" />
+            </ p>
+            <input type="button" value="上传" onclick="doUpload()" />
+    </form>
+    <img src="http://wx.ailabcare.com/kuaixiu/common/attachment/27" alt="">
+    <script>
+        function doUpload() {
+            var formData = new FormData($("#uploadForm")[0]);
+            $.ajax({
+                url: 'http://wx.ailabcare.com/kuaixiu' + '/common/uploadAttachment',
+                type: 'POST',
+                xhrFields: {
+                    //设置跨域请求
+                    withCredentials: true
+                },
+                headers: {
+                    'token': "18868734635",
+                },
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (returndata) {
+                    alert(JSON.stringify(returndata));
+                },
+                error: function (returndata) {
+                    alert(JSON.stringify(returndata));
+                }
+            });
+        }  
+    </script>
+
+    <button onclick="getBaoxiuList()">获取报修列表</button>
+    <script>
+        function getBaoxiuList() {
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8;",
+                xhrFields: {
+                    //设置跨域请求
+                    withCredentials: true
+                },
+                headers: {
+                    "token": "18868734635"
+                },
+                data: JSON.stringify({
+                    "own": 0,
+                    "pageNumber": 0,
+                    "pageSize": 100000,
+                    "status": 1
+                }),
+                url: 'http://wx.ailabcare.com/kuaixiu' + '/task/getList',
+                success: function (data) {
+                    response.innerHTML = JSON.stringify(data);
+                },
+                err: function (err) {
+                    alert(err);
+                }
+            })
+        }       
+    </script>
+</body>
+
+</html>
+
+
+

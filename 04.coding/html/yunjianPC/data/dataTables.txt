@@ -1,0 +1,61 @@
+
+//  例子
+var datatable_obj = null;
+$(document).ready(function(){
+    datatable_obj = $('#merchant-list').DataTable({
+        "serverSide": true,             //开启服务器实时搜索模式
+        "processing": true,             //是否显示处理状态
+        "aLengthMenu":[10,25,50,100,1000000],  //每页显示多少条数据
+        "ajax":{
+            "type":'POST',
+            "url":"http://<?php echo $_SERVER['HTTP_HOST'];?>/hWvIrd62LPqRj2P8/MerchantApply/proxyMerchantDatatable",
+            "data":{
+                'type':'',
+            }
+        },
+        "columns": [
+            null,
+            { "orderable": false , "width":"10"}, //设置列宽度
+            { "orderable": false },
+            { "orderable": false },
+            { "orderable": false },
+            { "orderable": false },
+            { "orderable": false },
+            { "orderable": false },
+            { "orderable": false },
+            { "orderable": false },
+            { "orderable": false },
+        ],
+        "fnDrawCallback":function(data){  //绘制完表格后 调用的函数
+
+            // // 销毁之前创建的标签
+            $("#merchant-list_length-from-one").remove();
+            var option = '';
+            option += '<form id="merchant-list_length-from-one" >';    //start
+            option += '<label style="margin-left:10px;;padding-top:4px;"> 粉丝总数: <b style="color:blue;">';
+            option +=  data.json.fans_total+'</b> </label>';    //start
+            option += '<button class="btn btn-primary" style="float:right;height: 25px; background: #1ab394;color: #fff;padding: 5px; text-align: center; border-radius: 2px;border:none;margin-left: 10px;" onclick="data_to_excel()" type="button">导出excel</button>'
+            option += '</from>';    //start
+
+            $("#merchant-list_length").parent().attr('class','col-sm-9');
+            $("#merchant-list_filter").parent().attr('class','col-sm-3');
+            $("#merchant-list_length").children('label').eq(0).after(option);
+
+            if($('#download-excel-type').val()=='excel'){
+                window.location.href = 'http://'+window.location.host +'/hWvIrd62LPqRj2P8/MerchantApply/exportExcel';
+                $('#download-excel-type').val('');
+            }
+        },
+    });
+});
+//当你需要多条件查询，你可以调用此方法，动态修改参数传给服务器
+function reloadTable() {
+    var name = $("#seName").val();
+    var admin = $("#seAdmin").val();
+    var param = {
+        "obj.name": name,
+        "obj.admin": admin
+    };
+    datatables_obj.settings()[0].ajax.data = param;
+    datatables_obj.ajax.reload();
+}

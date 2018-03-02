@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>科脉 | 我的维修</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <!--bootstrapvalidator-->
+    <link rel="stylesheet" href="../lib/bootstrapvalidator/css/bootstrapValidator.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/Ionicons/css/ionicons.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="../lib/dataTables/dataTables.bootstrap.min.css">
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/plugins/iCheck/all.css">
+    <!-- Bootstrap time Picker -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/plugins/timepicker/bootstrap-timepicker.min.css">
+    <!--select2-->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/select2/dist/css/select2.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/dist/css/skins/_all-skins.min.css">
+    <!-- Date Picker -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/bootstrap-daterangepicker/daterangepicker.css">
+    <!-- bootstrap wysihtml5 - text editor -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+    <!--评分组件-->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/bootstrap-star-rating-master/css/star-rating.css">
+    <!--webuploader-->
+    <link rel="stylesheet" href="../lib/webuploader/webuploader.css">
+    <!--自定义样式-->
+    <link rel="stylesheet" href="../css/common.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="../js/html5shiv.min.js"></script>
+    <script src="../js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="hold-transition skin-purple sidebar-mini">
+    <div class="wrapper" id="myTask">
+        <!--头部-->
+        <my-header v-bind:my-name="org.name"></my-header>
+
+        <!-- 左边菜单-->
+         <my-aside v-bind:my-name="user.userName" v-bind:my-type="org.type"></my-aside>
+
+        <!--/左边菜单-->
+        <!-- 中间内容 -->
+        <my-content></my-content>
+
+        <!-- /.content-wrapper -->
+        <my-footer></my-footer>
+
+    </div>
+    <!-- ./wrapper -->
+    <script type="text/x-template" id="main-template">
+        <div class="content-wrapper">
+            <!--中间内容-头部-->
+            <section class="content-header">
+                <h1>
+                   我的维修
+                </h1>
+            </section>
+
+            <!--中间内容-主体-->
+            <section class="content">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="box no-search">
+                            <div class="box-body">
+                                <div id="alertArea"></div>
+                                <form class="form-inline  has-success has-feedback tableSearch" style="margin-left: 15px;" id="merchant-list_length-from-one">
+                                    <button type="button" class="btn btn-primary  icon-plus" @click="accept">受理
+                                    </button>
+                                    <button type="button" class="btn btn-info  icon-plus" @click="repaired">修好
+                                    </button>
+                                    <button type="button" class="btn btn-warning  icon-plus" @click="track">跟踪
+                                    </button>
+                                    <button type="button" class="btn btn-danger  icon-plus" @click="close">关闭报修单
+                                    </button>
+                                    <select id="selectCustomer" class="select2 js-states form-control" style="width: 150px">
+
+                                    </select>
+                                    <select id="selectDevice" class="select2 js-states form-control" style="width: 150px">
+
+                                    </select>
+                                    <select id="selectStatus" class="select2 js-states form-control" style="width: 150px">
+
+                                    </select>
+                                    <!--<input type="text" class="form-control global_filter" style="width: 150px;" id="global_filter" >-->
+                                    <div class="input-group" style="width: 200px;">
+                                        <span class="input-group-addon">搜索...</span>
+                                        <input type="text" class="form-control global_filter" id="global_filter">
+                                    </div>
+                                </form>
+
+                                <table id="merchant-list" class="table table-bordered table-striped table-hover display">
+                                    <thead>
+                                        <tr>
+                                            <th>维修单号</th>
+                                            <th>设备名称</th>
+                                            <th>部门</th>
+                                            <th>报修内容</th>
+                                            <th>报修人</th>
+                                            <th>报修时间</th>
+                                            <th>报修状态</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+                <!--受理-->
+                <!--修好-->
+                <!--跟踪-->
+                <!--关闭报修单-->
+            </section>
+        </div>
+
+    </script>
+    <!-- jQuery 3 -->
+    <script src="../AdminLTE-2.4.2/bower_components/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="../AdminLTE-2.4.2/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!--bootstrapvalidator-->
+    <script src="../lib/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+    <!-- Select2 -->
+    <script src="../AdminLTE-2.4.2/bower_components/select2/dist/js/select2.full.min.js"></script>
+    <!-- DataTables -->
+    <script src="../lib/dataTables/jquery.dataTables.min.js"></script>
+    <script src="../lib/dataTables/dataTables.bootstrap.min.js"></script>
+    <!-- InputMask -->
+    <script src="../AdminLTE-2.4.2/plugins/input-mask/jquery.inputmask.js"></script>
+    <script src="../AdminLTE-2.4.2/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+    <script src="../AdminLTE-2.4.2/plugins/input-mask/jquery.inputmask.extensions.js"></script>
+    <!-- date-range-picker -->
+    <script src="../AdminLTE-2.4.2/bower_components/moment/min/moment.min.js"></script>
+    <script src="../AdminLTE-2.4.2/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <!-- bootstrap datepicker -->
+    <script src="../AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <!-- bootstrap time picker -->
+    <script src="../AdminLTE-2.4.2/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+    <!-- SlimScroll -->
+    <script src="../AdminLTE-2.4.2/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="../AdminLTE-2.4.2/bower_components/fastclick/lib/fastclick.js"></script>
+    <!-- AdminLTE App -->
+    <script src="../AdminLTE-2.4.2/dist/js/adminlte.min.js"></script>
+    <!--bootstrap-star-rating-->
+    <script src="../AdminLTE-2.4.2/bower_components/bootstrap-star-rating-master/js/star-rating.js"></script>
+    <!--sweetalert-->
+    <script src="../js/sweetalert.min.js"></script>
+    <!--webuploader-->
+    <script src="../lib/webuploader/webuploader.js"></script>
+    <script src="../js/moment-with-locales.min.js"></script>
+    <!--<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>-->
+    <!-- AdminLTE for demo purposes -->
+    <script src="../js/vue.js"></script>
+    <script src="../js/vue-router.js"></script>
+    <script src="../script/common.js"></script>
+    <script src="../script/myTask.js"></script>
+</body>
+
+</html>

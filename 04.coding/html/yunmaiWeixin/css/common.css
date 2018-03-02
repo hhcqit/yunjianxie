@@ -1,0 +1,206 @@
+.btnBlue {
+  color: #007aff;
+}
+p {
+  margin: 0;
+  padding: 0;
+}
+.mui-toast-container {
+  /*提示消息样式修改*/
+  bottom: 50%;
+}
+body,
+textarea {
+  font-size: 14px;
+}
+.mui-content > .mui-table-view:first-child {
+  margin-top: 0;
+}
+.mui-table-view-cell:after {
+  left: 0px;
+}
+header.mui-bar {
+  background: #007aff;
+}
+header.mui-bar h1 {
+  color: #fff;
+  font-weight: 600;
+}
+.mui-bar-nav {
+  box-shadow: none;
+  border: none;
+}
+.mui-bar-nav.mui-bar .mui-icon {
+  color: #fff;
+}
+.mui-bar-nav.mui-bar .mui-icon span {
+  font-size: 17px;
+}
+.mui-li-right {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1;
+  display: inline-block;
+  padding: 3px 6px;
+  color: #555;
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  right: 35px;
+}
+.feedback .mui-table-view-cell,
+.setting .mui-table-view-cell,
+.touxiang {
+  padding: 18px 15px;
+}
+.feedback .mui-table-view-cell a,
+.setting .mui-table-view-cell a,
+.touxiang a {
+  margin: -18px -15px;
+}
+.mui-popover {
+  display: none;
+  overflow: hidden;
+  position: fixed;
+  width: 80%;
+  height: auto;
+  left: 50% !important;
+  top: 50% !important;
+  margin: 0 auto;
+  z-index: 9999;
+  background-color: #fff;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  -moz-transform: translateX(-50%) translateY(-50%);
+  -ms-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+}
+.mui-popover-arrow {
+  display: none;
+}
+/*
+ * person
+ */
+.popover-title {
+  line-height: 30px;
+  text-align: center;
+  font-size: 20px;
+}
+#getCode,
+#getCode2 {
+  position: absolute;
+  right: 5px;
+  width: 60px;
+  padding: 7px;
+  top: 5px;
+}
+#getCode2 {
+  width: 100px;
+}
+.ui-page-person .mui-button-row {
+  padding: 0;
+  height: auto;
+}
+.ui-page-person .popoverBtn {
+  float: left;
+  width: 50%;
+  border-radius: 0;
+  line-height: 40px;
+  height: 40px;
+  padding-top: 0px ;
+  padding-bottom: 0px ;
+}
+/*
+*ui-page-register
+*/
+.mui-btn-small {
+  padding: 10px;
+}
+.ui-page-register .mui-btn {
+  padding: 5px;
+}
+.ui-page-register .title {
+  margin-bottom: 10px;
+}
+.ui-page-register .mui-text-right {
+  padding: 10px;
+}
+/*
+*ui-page-success
+*/
+.ui-page-success {
+  height: 100%;
+}
+.ui-page-success body,
+.ui-page-success #success {
+  height: 100%;
+}
+.ui-page-success #success {
+  background: url(../img/bg.png) no-repeat;
+  background-size: 100% 100%;
+  color: #fff;
+}
+.ui-page-success #success h3 {
+  margin: 0;
+  padding-top: 6em;
+  margin-bottom: 50px;
+}
+.ui-page-success #success p {
+  color: #fff;
+  padding: 30px;
+}
+.ui-page-success #success div {
+  color: #fff;
+  margin-top: 2em;
+  position: absolute;
+  bottom: 6em;
+  right: 30px;
+  left: 15px;
+  text-align: center;
+}
+.ui-page-success #success div a {
+  width: 150px;
+}
+.ui-page-task #task .updImgLi {
+  padding: 10px;
+  width: 70px;
+  height: 70px;
+}
+.ui-page-task #task .updImgLi img {
+  max-width: 100%;
+}
+.status10 {
+  color: orange;
+}
+.status20 {
+  color: #007aff;
+}
+.status30 {
+  color: green;
+}
+.ui-page-taskDetail #detailList,
+.ui-page-taskDetail #taskRepair {
+  background: #fff;
+  margin-bottom: 10px;
+}
+.ui-page-taskDetail #detailList > div,
+.ui-page-taskDetail #taskRepair > div {
+  line-height: 30px;
+  padding: 0px 15px;
+}
+.ui-page-taskDetail #detailList > div > label,
+.ui-page-taskDetail #taskRepair > div > label {
+  display: inline-block;
+  width: 80px;
+  text-align: right;
+}
+.ui-page-taskDetail #detailList > div > span,
+.ui-page-taskDetail #taskRepair > div > span {
+  font-weight: 600;
+}
+.ui-page-taskDetail .mui-btn {
+  padding: 5px;
+}
+.ui-page-taskDetail .mui-bar-tab .mui-tab-item {
+  color: #007aff;
+}

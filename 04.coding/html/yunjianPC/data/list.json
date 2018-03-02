@@ -1,0 +1,15 @@
+{
+  "data":[
+    {"name":"首页","icon":"fa fa-desktop","html":"index"},
+    {"name":"我的设备","icon":"fa fa-tv","html":"device"},
+    {"name":"保养计划","icon":"fa  fa-bell","html":"maintenancePlan"},
+    {"name":"保养任务","icon":"fa fa-tag","html":"maintenanceWork"},
+    {"name":"校准计划","icon":"fa  fa-arrows","html":"checkPlan"},
+    {"name":"鉴定&校准任务","icon":"fa  fa-gavel","html":"identification"},
+    {"name":"我要巡检","icon":"fa  fa-gavel","html":"identification"},
+    {"name":"我的维修","icon":"fa  fa-users","html":"seviceProviders"},
+    {"name":"我的成员","icon":"fa  fa-user","html":"remembers"},
+    {"name":"我的客户","icon":"fa  fa-user","html":"remembers"},
+    {"name":"系统设置","icon":"fa  fa-gear","html":"settings"}
+  ]
+}

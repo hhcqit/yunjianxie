@@ -1,0 +1,67 @@
+.skin-blue .wrapper, .skin-blue .main-sidebar, .skin-blue .left-side {
+    background-color: #ecf0f5;
+}
+
+.login-box {
+    margin: 0 auto;
+    padding-top: 150px;
+    padding-bottom: 150px;
+}
+
+.login-tilte {
+    text-align: center;
+    z-index: 100;
+    position: relative;
+}
+
+.login-logo {
+    margin: 20px auto;
+    width: 80px;
+}
+
+.login-name {
+    font-size: 25px;
+    color: #47C9AF;
+}
+
+.navbar li a i {
+    margin-right: 5px;
+}
+.skin-blue .main-header .logo{
+    background-color: rgb(2, 59, 255);
+}
+.skin-blue .main-header .logo:hover {
+    background-color: rgba(2, 59, 255,0.9);
+}
+.btn.btn-flat{
+    border-radius: 3px;
+}
+
+.content-wrapper{
+    background: url(../images/new_background.png) center center no-repeat;
+    background-size: 100% 100%;
+}
+.login-box-body, .register-box-body{
+    border-radius: 10px;
+    min-height: 400px;
+    position: relative;
+}
+
+
+.skin-blue .main-header .navbar {
+    background-color: rgb(2, 59, 255);
+}
+.box-bg{
+    background: ghostwhite;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    border-radius: 10px;
+}
+.bv-form{
+    z-index: 100;
+    position: relative;
+}

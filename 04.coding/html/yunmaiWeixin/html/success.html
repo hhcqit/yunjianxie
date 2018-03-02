@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" class="ui-page-success">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
+    <title>注册完成</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="../css/mui.css" rel="stylesheet" />
+	<link href="../css/font-awesome-4.7.0/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+	<link href="../css/common.css" rel="stylesheet" />
+</head>
+<body ontouchstart>
+<div  class="mui-content mui-text-center"  id="success">
+    <h3 class="">
+        恭喜，内部报修平台注册成功！
+    </h3>
+    <p>为了便于您的使用，接下来，简单了解下这个平台吧！</p>
+    <div class=" mui-content-padded">
+        <a href="javascript:;" class="mui-btn   mui-btn-primary mui-btn-outlined">好的</a>
+    </div>
+   
+</div>
+<script src="../js/zepto.min.js"></script>
+<script src="../js/vue.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="https://res.wx.qq.com/open/libs/weuijs/1.0.0/weui.min.js"></script>
+<script>
+
+    var person = new Vue({
+        el: "#success",
+        data: {
+            name:"",
+            depart:"",
+            phone:"",
+            role:""
+        },
+        methods:{
+            
+        }
+    })
+</script>
+</body>
+</html>

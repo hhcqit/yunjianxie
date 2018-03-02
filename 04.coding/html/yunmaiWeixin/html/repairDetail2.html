@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalabel=0,viewport-fit=cover">
+    <title>我的报修</title>
+    <link rel="stylesheet" href="../css/weui.css"/>
+    <link rel="stylesheet" href="../css/style.css"/>
+    <link rel="stylesheet" href="../fonts/iconfont.css"/>
+    <link rel="stylesheet" href="../lib/jquery.raty.css">
+</head>
+<body ontouchstart id="repairDetail2">
+<div class="page" id="">
+    <div class="page__bd">
+        <header class="weui">
+            <a href="javascript:location.back();" style="float:left;color:#fff;">
+                <i class="iconfont icon-fanhui" id="back"></i>
+            </a>
+            <h1 class="weui-title">评价</h1>
+        </header>
+        <div class="weui-cells">
+            <ul>
+                <li class="weui-cell">
+                    <label>维修人：</label>
+                    <span>test1</span>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <li class="weui-cell">
+                <label for="">服务态度：</label>
+                <div id="rate1" class="rate"></div>
+            </li>
+            <li class="weui-cell">
+                <label for="">技术能力：</label>
+                <div id="rate2" class="rate"></div>
+            </li>
+            <li class="weui-cell">
+                <label for="">响应速度：</label>
+                <div id="rate3" class="rate"></div>
+            </li>
+        </div>
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    <textarea class="weui-textarea" placeholder="本次维修怎么样，请说说你的感受吧！" rows="3"></textarea>
+                    <div class="weui-textarea-counter"><span>0</span>/200</div>
+                </div>
+            </div>
+        </div>
+        <div class="weui-btn-area">
+            <a class="weui-btn weui-btn_primary" href="javascript:" id="showTooltips">确定评价</a>
+        </div>
+    </div>
+</div>
+<script src="../js/jquery.js"></script>
+<script src="../js/vue.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="https://res.wx.qq.com/open/libs/weuijs/1.0.0/weui.min.js"></script>
+<script src="../lib/jquery.raty.js"></script>
+<script type="text/javascript">
+    $('.rate').raty();
+</script>
+</body>
+</html>

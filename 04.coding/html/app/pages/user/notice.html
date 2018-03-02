@@ -1,0 +1,92 @@
+<!doctype html>
+<html class="ui-page-person">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>新消息通知</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link href="../../css/font-awesome-4.7.0/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+		<link href="../../css/iconfont.css" rel="stylesheet" />
+		<link href="../../css/style.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"><span>设置</span></a>
+			<h1 class="mui-title">新消息通知</h1>
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view" style="margin-top:0.625rem;">
+				<li class="mui-table-view-cell">
+					微信消息免打扰
+					<div class="mui-switch mui-switch-blue mui-switch-mini mui-active">
+						<div class="mui-switch-handle"></div>
+					</div>
+				</li>
+			</ul>
+			<p>
+				如果开启您的微信公众号将收不到消息。
+			</p>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					消息免打扰
+					<div class="mui-switch mui-switch-blue mui-switch-mini mui-active">
+						<div class="mui-switch-handle"></div>
+					</div>
+				</li>
+			</ul>
+			<p>
+				如果开启微检修将不再向你推送消息。
+			</p>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					消息免打扰
+					<div class="mui-switch mui-switch-blue mui-switch-mini mui-active">
+						<div class="mui-switch-handle"></div>
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					修好了
+					<div class="mui-switch mui-switch-blue mui-switch-mini mui-active">
+						<div class="mui-switch-handle"></div>
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					补充记录更新
+					<div class="mui-switch mui-switch-blue mui-switch-mini mui-active">
+						<div class="mui-switch-handle"></div>
+					</div>
+				</li>
+			</ul>
+			<p>
+			以上三种是具体类型的消息通知开关，关闭后微检修将不再向你推送该类型的消息。
+			</p>
+			<div style="text-align: right;padding:0 15px;color:#6987D3;">
+				为什么我收不到推送消息?
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/common1.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			mui('.mui-table-view-cell').on("tap","a",function(){
+				mui.openWindow({
+					url:this.href,
+					id:this.href,
+					preload: true,
+					show: {
+						aniShow: 'pop-in'
+					},
+					styles: {
+						popGesture: 'hide'
+					},
+					waiting: {
+						autoShow: false
+					}
+				})
+			})
+		</script>
+	</body>
+
+</html>

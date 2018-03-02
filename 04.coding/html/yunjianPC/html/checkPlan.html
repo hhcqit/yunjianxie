@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>科临脉云设备管理平台</title>
+
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <!--bootstrapvalidator-->
+    <link rel="stylesheet" href="../lib/bootstrapvalidator/css/bootstrapValidator.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/Ionicons/css/ionicons.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="../lib/dataTables/dataTables.bootstrap.min.css">
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/plugins/iCheck/all.css">
+    <!-- Bootstrap time Picker -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/plugins/timepicker/bootstrap-timepicker.min.css">
+    <!--select2-->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/select2/dist/css/select2.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/dist/css/skins/_all-skins.min.css">
+    <!-- Date Picker -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/bootstrap-daterangepicker/daterangepicker.css">
+    <!-- bootstrap wysihtml5 - text editor -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+    <!--评分组件-->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/bootstrap-star-rating-master/css/star-rating.css">
+    <!--webuploader-->
+    <link rel="stylesheet" href="../lib/webuploader/webuploader.css">
+    <!--自定义样式-->
+    <link rel="stylesheet" href="../css/common.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="../js/html5shiv.min.js"></script>
+    <script src="../js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="hold-transition skin-purple sidebar-mini">
+    <div class="wrapper" id="checkPlan">
+        <!--头部-->
+        <my-header v-bind:my-name="org.name"></my-header>
+        <!-- 左边菜单-->
+         <my-aside v-bind:my-name="user.userName" v-bind:my-type="org.type"></my-aside>
+        <my-content></my-content>
+        <my-footer></my-footer>
+
+    </div>
+    <!-- ./wrapper -->
+    <script type="text/x-template" id="main-template">
+        <!-- 中间内容 -->
+        <div class="content-wrapper">
+            <!--中间内容-头部-->
+            <section class="content-header">
+                <h1>
+                    校准计划
+                </h1>
+            </section>
+
+            <!--中间内容-主体-->
+            <section class="content">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="box no-search">
+                            <div class="box-body">
+                                <div id="alertArea"></div>
+                                <form class="form-inline  has-success has-feedback tableSearch" style="margin-left: 15px;" id="merchant-list_length-from-one">
+                                    <button type="button" class="btn btn-primary  icon-plus" @click="add" id="addBtn">新增计划
+                                    </button>
+                                    <button type="button" class="btn btn-warning  icon-plus" @click="upd">修改计划
+                                    </button>
+                                    <button type="button" class="btn btn-danger  icon-plus" @click="del">删除计划
+                                    </button>
+                                    <!--选择设备-->
+                                    <select id="selectDevice" class="select2 js-states form-control" style="width: 150px">
+                                    </select>
+                                    <!--执行权限-->
+                                    <select id="selectAuthority" class="select2 js-states form-control" style="width: 150px" data-placeholder="请选择执行权限" v-if="isLab">
+                                        <option value="不限制">不限制</option>
+                                        <option value="内部执行">内部执行</option>
+                                        <option value="外部执行">外部执行</option>
+                                    </select>
+                                    <!--<input type="text" class="form-control global_filter" style="width: 150px;" id="global_filter" >-->
+                                    <div class="input-group" style="width: 200px;">
+                                        <span class="input-group-addon">搜索...</span>
+                                        <input type="text" class="form-control global_filter" id="global_filter">
+                                    </div>
+                                </form>
+                                <table id="merchant-list" class="table table-bordered table-striped table-hover display">
+                                    <thead>
+                                        <tr>
+                                            <th>校准计划名称</th>
+                                            <th>计划开始时间</th>
+                                            <th>设备名称</th>
+                                            <th>检定项目</th>
+                                            <th>检定周期</th>
+                                            <th>预警时间</th>
+                                            <th>上一次执行时间</th>
+                                            <th>下一次执行时间</th>
+                                            <th v-if="isLab">执行权限</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+                <!--添加or修改-->
+                <div class="modal fade" id="modalAdd" style="display: none;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form class="form-horizontal" id="addForm">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                    <h4 class="modal-title">新增计划</h4>
+                                </div>
+                                <div class="modal-body row">
+                                    <!--<div class="box-body">-->
+                                    <div class="col-xs-12">
+                                        <div class="form-group">
+                                            <label class="col-sm-3 col-md-2 control-label">计划名称</label>
+
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" placeholder="请输入计划名称" name="name">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-md-2 control-label">检定项目</label>
+                                            <div class="col-sm-9">
+                                                <textarea class="form-control" cols="8" name="content"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <div class="form-group  row">
+                                            <label class="col-sm-3 col-md-2 control-label">设备名称</label>
+                                            <div class="col-sm-9">
+                                                <select class="select2 js-states form-control" style="width: 100%;" data-placeholder="请选择设备名称" name="equipId" :disabled="!editKind">
+                                                    <option v-for="item in deviceNameList" :value="item.id">{{item.name}}</option>
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-md-2 control-label">检定周期:</label>
+                                            <div class="col-sm-6">
+                                                <div class="input-group spinner">
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-info btn-flat minus">
+                                                            <i class="fa fa-caret-down"></i>
+                                                        </button>
+                                                    </span>
+                                                    <input type="text" class="form-control" name="period" placeholder="周期" value="5" onchange="if(/\D/.test(this.value)){alert('只能输入数字');this.value='5';}">
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-info btn-flat plus">
+                                                            <i class="fa fa-caret-up"></i>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-md-2 control-label">预警时间:</label>
+                                            <div class="col-sm-6">
+                                                <div class="input-group spinner">
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-info btn-flat minus">
+                                                            <i class="fa fa-caret-down"></i>
+                                                        </button>
+                                                    </span>
+                                                    <input type="text" class="form-control" placeholder="天数" value="10" name="warnDay" onchange="if(/\D/.test(this.value)){alert('只能输入数字');this.value='10';}">
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-info btn-flat plus">
+                                                            <i class="fa fa-caret-up"></i>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12" id="authorityArea" v-if="isLab">
+                                        <div class="form-group  row">
+                                            <label class="col-sm-3 col-md-2 control-label">执行权限</label>
+                                            <div class="col-sm-9">
+                                                <select class="select2 js-states form-control" style="width: 100%;" data-placeholder="请选择执行权限" name="executePermission">
+                                                    <option value="0">不限制</option>
+                                                    <option value="1">内部执行</option>
+                                                    <option value="2">外部执行</option>
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <div class="form-group  row">
+                                            <label class="col-sm-3 col-md-2 control-label">开始日期</label>
+
+                                            <div class="col-sm-9">
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type="text" class="form-control pull-right datepicker" id="datepicker1" name="startTime">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--</div>-->
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default pull-left" @click="FnEditCancel('#modalAdd')">关闭</button>
+                                    <button type="button" class="btn btn-info" @click="FnEditSave">保存</button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+            </section>
+        </div>
+    </script>
+    <!-- jQuery 3 -->
+    <script src="../AdminLTE-2.4.2/bower_components/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="../AdminLTE-2.4.2/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!--bootstrapvalidator-->
+    <script src="../lib/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+    <!-- Select2 -->
+    <script src="../AdminLTE-2.4.2/bower_components/select2/dist/js/select2.full.min.js"></script>
+    <!-- DataTables -->
+    <script src="../lib/dataTables/jquery.dataTables.min.js"></script>
+    <script src="../lib/dataTables/dataTables.bootstrap.min.js"></script>
+    <!-- InputMask -->
+    <script src="../AdminLTE-2.4.2/plugins/input-mask/jquery.inputmask.js"></script>
+    <script src="../AdminLTE-2.4.2/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+    <script src="../AdminLTE-2.4.2/plugins/input-mask/jquery.inputmask.extensions.js"></script>
+    <!-- date-range-picker -->
+    <script src="../AdminLTE-2.4.2/bower_components/moment/min/moment.min.js"></script>
+    <script src="../AdminLTE-2.4.2/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <!-- bootstrap datepicker -->
+    <script src="../AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <!-- bootstrap time picker -->
+    <script src="../AdminLTE-2.4.2/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+    <!-- SlimScroll -->
+    <script src="../AdminLTE-2.4.2/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="../AdminLTE-2.4.2/bower_components/fastclick/lib/fastclick.js"></script>
+    <!-- AdminLTE App -->
+    <script src="../AdminLTE-2.4.2/dist/js/adminlte.min.js"></script>
+    <!--bootstrap-star-rating-->
+    <script src="../AdminLTE-2.4.2/bower_components/bootstrap-star-rating-master/js/star-rating.js"></script>
+    <!--sweetalert-->
+    <script src="../js/sweetalert.min.js"></script>
+    <!--webuploader-->
+    <script src="../lib/webuploader/webuploader.js"></script>
+    <!-- moment  -->
+    <script src="../js/moment-with-locales.min.js"></script>
+    <!--<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>-->
+    <!-- AdminLTE for demo purposes -->
+    <script src="../js/vue.js"></script>
+    <script src="../js/vue-router.js"></script>
+    <script src="../script/common.js"></script>
+    <script src="../script/checkPlan.js"></script>
+</body>
+
+</html>

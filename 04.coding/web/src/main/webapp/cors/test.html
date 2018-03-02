@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>cors test page</title>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script>
+	// 在Angular中跨域cookie需要进行一些设置:
+	// $http.post(url, {withCredentials: true, ...})
+	//或者
+	// $http({withCredentials: true, ...}).post(...)
+	//或者
+	// .config(function ($httpProvider) {
+	// $httpProvider.defaults.withCredentials = true;
+	// }
+	//设置AJAX的全局默认选项
+	$.ajaxSetup({
+		url : "/user/login", // 默认URL
+		type : "POST", // 默认使用POST方式
+		contentType : 'application/json',
+		dataType : "json", // 默认返回json数据
+		headers : { // 默认添加请求头
+			token : "13588441519"
+		},
+		xhrFields : {
+			//设置跨域请求
+			withCredentials : true
+		},
+		beforeSend : function(xhr) {
+			var url = this.url.toLowerCase();
+			if (url.indexOf("http://") > -1 || url.indexOf("https://") > -1)
+				;
+			else
+				this.url = "http://localhost:8080/kuaixiu-web/" + this.url;
+		},
+		error : function(jqXHR, textStatus, errorMsg) {
+			// 出错时默认的处理函数
+			// jqXHR 是经过jQuery封装的XMLHttpRequest对象
+			// textStatus 可能为： null、"timeout"、"error"、"abort"或"parsererror"
+			// errorMsg 可能为： "Not Found"、"Internal Server Error"等
+
+			// 提示形如：发送AJAX请求到"/index.html"时出错[404]：Not Found
+			alert('发送AJAX请求到"' + this.url + '"时出错[' + jqXHR.status + ']：'
+					+ errorMsg);
+		}
+	});
+	function sendSmsCode() {
+		$.ajax({
+			url : "common/sendSmsCode",
+			type : "post",
+			dataType : "json",
+			timeout : 10000,
+			data : JSON.stringify({
+				mobile : '13588441519',
+				type : 1
+			}),
+			success : function(data) {
+				$("#data").append(JSON.stringify(data, null, 4) + "<br />\n");
+				console.log(data);
+				formatJson("#data");
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				$("#data").append(textStatus + "<br />");
+			}
+		});
+	}
+	function login() {
+		$.ajax({
+			url : "user/login",
+			type : "post",
+			dataType : "json",
+			timeout : 10000,
+			data : JSON.stringify({
+				mobile : '13588441519',
+				password : '123456'
+			}),
+			success : function(data) {
+				$("#data").append(JSON.stringify(data, null, 4) + "<br />\n");
+				console.log(data);
+				formatJson("#data");
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				$("#data").append(textStatus + "<br />");
+			}
+		});
+	}
+	function loadData(url, data) {
+		$.ajax({
+			url : url,
+			dataType : "json",
+			timeout : 10000,
+			data : JSON.stringify(data),
+			success : function(data) {
+				// 				alert(data.user.NAME);
+				$("#data").append(JSON.stringify(data, null, 2) + "<br />\n");
+				console.log(data);
+				formatJson("#data");
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				$("#data").append(textStatus + "<br />");
+			}
+		});
+	}
+	$(function() {
+		$("#host").append("origin:" + window.location.origin);
+	});
+	function formatJson(sourceJson) {
+		$("#targetjson").val($(sourceJson).text());
+	}
+</script>
+</head>
+<body>
+	<div id="host"></div>
+	<textarea name="targetjson" id="targetjson" rows="33"
+		style="width: 100%;">  </textarea>
+	<button onclick="sendSmsCode()">smsCode</button>
+	<button onclick="login()">login</button>
+	<input type="button" onclick="formatJson('#data');" value="美化" />
+	<input type="button" onclick="javascript:$('#targetjson').toggle();"
+		value="开关" />
+	<input type="button"
+		onclick="javascript:$('#data').text('');$('#targetjson').val('');"
+		value="清除" />
+
+	<div style="width: 100%">
+		用户管理：
+		<button onclick="loadData('user/getUser',{id:1})">getUser</button>
+		<button
+			onclick="loadData('user/getList',{
+			  orgId: '1',
+			  pageNumber: 0,
+			  pageSize: 5
+			})">getList</button>
+	</div>
+	<div style="width: 100%">
+		设备管理：
+		<button onclick="loadData('equipment/getList')">getList</button>
+		<button onclick="loadData('equipment/getList')">getBindList</button>
+	</div>
+	<div id="data" style="width: 100%"></div>
+</body>
+</html>

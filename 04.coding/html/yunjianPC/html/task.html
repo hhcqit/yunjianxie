@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>科脉 | 任务</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <!--bootstrapvalidator-->
+    <link rel="stylesheet" href="../lib/bootstrapvalidator/css/bootstrapValidator.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/Ionicons/css/ionicons.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="../lib/dataTables/dataTables.bootstrap.min.css">
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/plugins/iCheck/all.css">
+    <!-- Bootstrap time Picker -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/plugins/timepicker/bootstrap-timepicker.min.css">
+    <!--select2-->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/select2/dist/css/select2.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/dist/css/skins/_all-skins.min.css">
+    <!-- Date Picker -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/bootstrap-daterangepicker/daterangepicker.css">
+    <!-- bootstrap wysihtml5 - text editor -->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+    <!--评分组件-->
+    <link rel="stylesheet" href="../AdminLTE-2.4.2/bower_components/bootstrap-star-rating-master/css/star-rating.css">
+    <!--webuploader-->
+    <link rel="stylesheet" href="../lib/webuploader/webuploader.css">
+    <!--自定义样式-->
+    <link rel="stylesheet" href="../css/common.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="../js/html5shiv.min.js"></script>
+    <script src="../js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="hold-transition skin-purple sidebar-mini">
+    <div class="wrapper" id="task">
+        <!--头部-->
+        <my-header v-bind:my-name="org.name"></my-header>
+         <my-aside v-bind:my-name="user.userName" v-bind:my-type="org.type"></my-aside>
+
+        <!-- 中间内容 -->
+        <my-content></my-content>
+        <!-- /.content-wrapper -->
+        <my-footer></my-footer>
+
+    </div>
+    <!-- ./wrapper -->
+    <script type="text/x-template" id="task-template">
+        <div class="content-wrapper">
+            <!--中间内容-头部-->
+            <section class="content-header">
+                <h1>
+                    我要{{title}}
+                </h1>
+            </section>
+
+            <!--中间内容-主体-->
+            <section class="content">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="box no-search">
+                            <div class="box-body">
+                                <div id="alertArea"></div>
+                                <form class="form-inline  has-success has-feedback tableSearch" style="margin-left: 15px;" id="merchant-list_length-from-one">
+                                    <button type="button" class="btn btn-primary  icon-plus" @click="add" id="addBtn">我要{{title}}
+                                    </button>
+                                    <button type="button" class="btn btn-warning  icon-plus" @click="track">跟踪
+                                    </button>
+                                    <button type="button" class="btn btn-info  icon-plus" @click="check">验收
+                                    </button>
+                                    <button type="button" class="btn btn-success  icon-plus" @click="grade">评分
+                                    </button>
+                                    <button type="button" class="btn btn-danger  icon-plus" @click="close">关闭报修单
+                                    </button>
+                                    <select id="selectDevice" class="select2 js-states form-control" style="width: 150px">
+
+                                    </select>
+                                    <select id="selectStatus" class="select2 js-states form-control" style="width: 150px">
+
+                                    </select>
+                                    <!--<input type="text" class="form-control global_filter" style="width: 150px;" id="global_filter" >-->
+                                    <div class="input-group" style="width: 200px;">
+                                        <span class="input-group-addon">搜索...</span>
+                                        <input type="text" class="form-control global_filter" id="global_filter">
+                                    </div>
+                                </form>
+
+                                <table id="merchant-list" class="table table-bordered table-striped table-hover display">
+                                    <thead>
+                                        <tr>
+                                            <th>维修单号</th>
+                                            <th>设备名称</th>
+                                            <th>部门</th>
+                                            <th>报修内容</th>
+                                            <th>报修人</th>
+                                            <th>报修时间</th>
+                                            <th>报修状态</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+                <!--我要报修-->
+                <div class="modal fade bs-example-modal-lg" id="modalAdd" style="display: none;">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <form class="form-horizontal" id="addForm">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                    <h4 class="modal-title">我要{{title}}-添加</h4>
+                                </div>
+                                <div class="modal-body row">
+                                    <!--<div class="box-body">-->
+                                    <div class="col-xs-12">
+                                        <div class="form-group">
+                                            <label class="col-sm-3 col-md-2 control-label">设备名称</label>
+                                            <div class="col-sm-9 col-md-10">
+                                                <select class="select2 js-states form-control" style="width: 100%;" data-placeholder="请选择设备名称" name="equipId">
+                                                    <option v-for="item in deviceNameList" :value="item.id">{{item.name}}</option>
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-md-2 control-label">报修内容</label>
+                                            <div class="col-sm-9 col-md-10">
+                                                <textarea class="form-control" name="description"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <div class="form-group">
+                                            <label class="col-sm-3 col-md-2 control-label">选择上传图片</label>
+                                            <div class="col-sm-9">
+                                                <!--<input type="button" class="form-control" value="选择上次文件">-->
+                                                <div id="uploader2" class="wu-example">
+                                                    <div class="btns">
+                                                        <div id="filePicker2" style="    display: inline-block;line-height: 1;vertical-align: middle;margin: 0 12px 0 0;">
+                                                            选择文件
+                                                        </div>
+                                                        <input id="attachType2" name="attachType2" value="news" type="hidden" />
+                                                        <button id="ctlBtn" class="btn btn-default">开始上传</button>
+                                                        <span>只能上传jpg/png格式文件，单个文件不能超过500kb</span>
+                                                    </div>
+                                                    <input id="attachIds" name="attachIds" type="hidden" />
+                                                    <!--用来存放文件信息-->
+                                                    <div id="theList" class="uploader-list" style="margin-bottom: 5px">
+                                                        <!--<div class="row" style="border: 1px solid green;">-->
+                                                        <!--<div class="col-xs-12" style="height: 40px;display: flex;align-items: center;">-->
+                                                        <!--<img style="width:40px;height: 40px;" src="../images/256x256.png" alt="">-->
+                                                        <!--<b class="info" style="flex-grow:2">256*256.png</b>-->
+                                                        <!--<span class="state" style="margin-right: 15px;">等待上传</span>-->
+                                                        <!--<button type="button" class="btn btn-primary  icon-plus">删除</button>-->
+                                                        <!--</div>-->
+                                                        <!--<div class="col-xs-12">-->
+                                                        <!--<div class="progress active">-->
+                                                        <!--<div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">-->
+                                                        <!--<span>20% Complete</span>-->
+                                                        <!--</div>-->
+                                                        <!--</div>-->
+                                                        <!--</div>-->
+                                                        <!--</div>-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--</div>-->
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default pull-left" @click="FnEditCancel('#modalAdd')">关闭</button>
+                                    <button type="button" class="btn btn-info" @click="FnEditSave">提交报修单</button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <!--跟踪-->
+                <!--验收-->
+                <div class="modal fade bs-example-modal-lg" id="modalChk" style="display: none;">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <form class="form-horizontal" id="chkForm">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                    <h4 class="modal-title">我要{{title}}-验收</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">定标执行情况</label>
+                                                <div class="col-sm-10">
+                                                    <input name="examineCalibrate" type="text" class="form-control" placeholder="定标执行情况" v-model="chkList.examineCalibrate">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">质控检测情况</label>
+
+                                                <div class="col-sm-10">
+                                                    <input name="examineQc"  type="text" class="form-control" placeholder="质控检测情况" v-model="chkList.examineQc">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">留样检测情况</label>
+
+                                                <div class="col-sm-10">
+                                                    <input name="examineSample" type="text" class="form-control" placeholder="留样检测情况" v-model="chkList.examineSample">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">验收说明</label>
+
+                                                <div class="col-sm-10">
+                                                    <input name="examineDescription" type="text" class="form-control" placeholder="其它" v-model="chkList.examineDescription">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">故障造成工作中断时间:</label>
+
+                                                <div class="col-sm-9" style="width: 200px;">
+                                                    <div class="input-group spinner">
+                                                        <span class="input-group-btn">
+                                                            <button type="button" class="btn btn-info btn-flat minus">
+                                                                <i class="fa fa-caret-down"></i>
+                                                            </button>
+                                                        </span>
+                                                        <input type="number"
+                                                        name="malfunctionDuration" class="form-control" placeholder="周期" value="5" step="0.5" onchange="if(/^(\-)\d+(\.\d+)?$/.test(this.value)){alert('只能输入正数');this.value=5;}" v-model="chkList.malfunctionDuration">
+                                                        <span class="input-group-btn">
+                                                            <button type="button" class="btn btn-info btn-flat plus">
+                                                                <i class="fa fa-caret-up"></i>
+                                                            </button>
+                                                        </span>
+                                                        <span class="unit">小时</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--<div class="box-body">-->
+
+                                    <!--</div>-->
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default pull-left" @click="FnEditCancel('#modalChk')">关闭</button>
+                                    <button type="button" class="btn btn-success" @click="taskExamine(1)">验收合格</button>
+                                    <button type="button" class="btn btn-danger" @click="taskExamine(0)">验收不合格</button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <!--评分-->
+                <div class="modal fade" id="modalGrade">
+                    <div class="modal-dialog" style="max-width: 350px;">
+                        <div class="modal-content">
+                            <form class="form-horizontal" id="gradeForm">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                    <h4 class="modal-title">我要{{title}}-评分</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-xs-3" style="max-width: 100px">
+                                            <label>维修人员</label>
+                                        </div>
+                                        <div class="col-xs-9">
+                                            <label>xxx</label>
+                                        </div>
+                                        <div class="col-xs-3" style="max-width: 100px">
+                                            <label>服务态度</label>
+                                        </div>
+                                        <div class="col-xs-9">
+                                            <input id="rating-service" type="text" title="" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-3" style="max-width: 100px">
+                                            <label>技术能力</label>
+                                        </div>
+                                        <div class="col-xs-9">
+                                            <input id="rating-skills" type="text" title="" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-3" style="max-width: 100px">
+                                            <label>响应速度</label>
+                                        </div>
+                                        <div class="col-xs-9">
+                                            <input id="rating-response" type="text" title="" />
+                                        </div>
+                                    </div>
+
+                                    <!--</div>-->
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default pull-left" @click="FnEditCancel('#modalGrade')">关闭</button>
+                                    <button type="button" class="btn btn-info" @click="FnBindSave">确定评价</button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <!--关闭报修单-->
+            </section>
+        </div>
+
+      </script>
+    <!-- jQuery 3 -->
+    <script src="../AdminLTE-2.4.2/bower_components/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="../AdminLTE-2.4.2/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!--bootstrapvalidator-->
+    <script src="../lib/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+    <!-- Select2 -->
+    <script src="../AdminLTE-2.4.2/bower_components/select2/dist/js/select2.full.min.js"></script>
+    <!-- DataTables -->
+    <script src="../lib/dataTables/jquery.dataTables.min.js"></script>
+    <script src="../lib/dataTables/dataTables.bootstrap.min.js"></script>
+    <!-- InputMask -->
+    <script src="../AdminLTE-2.4.2/plugins/input-mask/jquery.inputmask.js"></script>
+    <script src="../AdminLTE-2.4.2/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+    <script src="../AdminLTE-2.4.2/plugins/input-mask/jquery.inputmask.extensions.js"></script>
+    <!-- date-range-picker -->
+    <script src="../AdminLTE-2.4.2/bower_components/moment/min/moment.min.js"></script>
+    <script src="../AdminLTE-2.4.2/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <!-- bootstrap datepicker -->
+    <script src="../AdminLTE-2.4.2/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <!-- bootstrap time picker -->
+    <script src="../AdminLTE-2.4.2/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+    <!-- SlimScroll -->
+    <script src="../AdminLTE-2.4.2/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="../AdminLTE-2.4.2/bower_components/fastclick/lib/fastclick.js"></script>
+    <!-- AdminLTE App -->
+    <script src="../AdminLTE-2.4.2/dist/js/adminlte.min.js"></script>
+    <!--bootstrap-star-rating-->
+    <script src="../AdminLTE-2.4.2/bower_components/bootstrap-star-rating-master/js/star-rating.js"></script>
+    <!--sweetalert-->
+    <script src="../js/sweetalert.min.js"></script>
+    <!--webuploader-->
+    <script src="../lib/webuploader/webuploader.js"></script>
+    <script src="../js/moment-with-locales.min.js"></script>
+    <!--<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>-->
+    <!-- AdminLTE for demo purposes -->
+    <script src="../js/vue.js"></script>
+    <script src="../js/vue-router.js"></script>
+    <script src="../script/common.js"></script>
+    <script src="../script/task.js"></script>
+</body>
+
+</html>
